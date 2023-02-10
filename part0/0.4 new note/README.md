@@ -23,7 +23,7 @@ activate server
 server-->>browser: [{ "content": "HTML is easy", "date": "2023-2-10" }, ... ]
 deactivate server
 
-Note right of browser: The browser starts executing the JavaScript code that renders the list of notes 
+Note right of browser: The browser starts executing the JavaScript code that renders the list of notes
 
 browser->>server: POST https://studies.cs.helsinki.fi/exampleapp/new_note
 activate server

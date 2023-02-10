@@ -25,17 +25,5 @@ deactivate server
 
 Note right of browser: The browser starts executing the JavaScript code that renders the list of notes
 
-browser->>server: POST https://studies.cs.helsinki.fi/exampleapp/new_note
-activate server
-browser->>server: {"content": "This is a new note", "date": "2023-2-10"}
-server-->>browser: 302 Found
-deactivate server
-
-browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/notes
-activate server
-server-->>browser: HTML document
-deactivate server
-
-Note right of browser: The browser updates the list of notes with the new note and re-renders the page
 
 ```

@@ -22,11 +22,10 @@ const App = () => {
     e.preventDefault()
     let newPerson = { name: newName, number }
     let indexExistPerson = checkExistPerson(persons, newName)
-    if (!indexExistPerson) {
+    if (indexExistPerson === -1) {
       postNewdata(newPerson, setNewName, setNewNumber)
     } else {
       if (window.confirm(`${newName} is already to phoneBook , replace the old number with new one`)) {
-
         updateData(persons[indexExistPerson].id, newPerson)
       }
     }

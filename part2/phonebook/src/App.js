@@ -1,20 +1,16 @@
-import { useState ,useEffect} from 'react'
+import { useState, useEffect } from 'react'
 import Filter from './component/Filter'
 import PersonForm from './component/PersonForm'
 import Persons from './component/Persons'
-import axios from 'axios'
+import { deleteData, getData, postNewdata, updateData } from './API'
 const App = () => {
   const [persons, setPersons] = useState([])
   const [newName, setNewName] = useState('')
   const [filterName, setFilterName] = useState('')
   const [number, setNewNumber] = useState(0)
-useEffect(()=> { 
-  axios
-    .get('http://localhost:3001/persons')
-    .then(response => {
-      setPersons(response.data)
-    })
-},[])
+  useEffect(() => {
+    getData(setPersons)
+  }, [])
 
   const hanldeNewNote = (e) => {
     setNewName(e.target.value)
@@ -24,19 +20,28 @@ useEffect(()=> {
   }
   const handleSubmit = (e) => {
     e.preventDefault()
-
     let newPerson = { name: newName, number }
-    setPersons(persons.concat(newPerson))
-    setNewName('')
-    setNewNumber(0)
-    alert(`${newName} is already added to phonebook`)
+    let indexExistPerson = checkExistPerson(persons, newName)
+    if (!indexExistPerson) {
+      postNewdata(newPerson, setNewName, setNewNumber)
+    } else {
+      if (window.confirm(`${newName} is already to phoneBook , replace the old number with new one`)) {
 
-
+        updateData(persons[indexExistPerson].id, newPerson)
+      }
+    }
   }
-
+  const checkExistPerson = (arr, personName) => {
+    return arr.findIndex(person => person.name.toLowerCase() === personName)
+  }
   const renderPersons = (arr) => {
     return arr.map((item, index) => {
-      return <h3 key={index}> {item.name} {item.number}</h3>
+      const { number, id, name, } = item
+      return <p key={index}>
+
+        {name} {number}
+        <span><button onClick={() => { deleteData(id, name) }}>delete</button></span>
+      </p>
     })
   }
 

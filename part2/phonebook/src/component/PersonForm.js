@@ -1,6 +1,7 @@
 import React from 'react'
 
 function PersonForm({ handleSubmit ,newName,number,handleNewNumber,hanldeNewNote}) {
+   
   return (
       <form onSubmit={handleSubmit}>
           <h2>Add new</h2>

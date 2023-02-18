@@ -3,11 +3,17 @@ import Filter from './component/Filter'
 import PersonForm from './component/PersonForm'
 import Persons from './component/Persons'
 import { deleteData, getData, postNewdata, updateData } from './API'
+import Message from './Message/Message'
 const App = () => {
   const [persons, setPersons] = useState([])
   const [newName, setNewName] = useState('')
   const [filterName, setFilterName] = useState('')
   const [number, setNewNumber] = useState(0)
+  const [systermMessage, setSytermMessage] = useState({
+    display: false,
+    message: '',
+    type: ''
+  })
   useEffect(() => {
     getData(setPersons)
   }, [])
@@ -23,10 +29,10 @@ const App = () => {
     let newPerson = { name: newName, number }
     let indexExistPerson = checkExistPerson(persons, newName)
     if (indexExistPerson === -1) {
-      postNewdata(newPerson, setNewName, setNewNumber)
+      postNewdata(newPerson, setNewName, setNewNumber, setSytermMessage)
     } else {
       if (window.confirm(`${newName} is already to phoneBook , replace the old number with new one`)) {
-        updateData(persons[indexExistPerson].id, newPerson)
+        updateData(persons[indexExistPerson].id, newPerson, setSytermMessage)
       }
     }
   }
@@ -39,7 +45,7 @@ const App = () => {
       return <p key={index}>
 
         {name} {number}
-        <span><button onClick={() => { deleteData(id, name) }}>delete</button></span>
+        <span><button onClick={() => { deleteData(id, name, setPersons, persons, setSytermMessage) }}>delete</button></span>
       </p>
     })
   }
@@ -50,6 +56,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Message systermMessage={systermMessage} />
       <div>
         <Filter handleNewFilter={handleNewFilter} filterName={filterName} />
       </div>

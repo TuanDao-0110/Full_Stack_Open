@@ -1,5 +1,10 @@
 const express = require('express')
 const app = express()
+const morgan = require('morgan')
+morgan.token("req-body", function (req, res) {
+    return JSON.stringify(req.body);
+});
+
 const fs = require('fs');
 const filePath = './data.json';
 
@@ -22,6 +27,8 @@ const checkObjectKeysAndValues = (obj) => {
 const checkName = (newData, data) => {
     return data.findIndex(person => person.name.toLowerCase() === (newData.name.toLowerCase()))
 }
+app.use(morgan(':method :url :status :response-time ms - :req-body'));
+
 app.use(express.json())
 
 app.get("/api/persons", (request, respone) => {

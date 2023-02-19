@@ -4,17 +4,44 @@ const morgan = require('morgan')
 morgan.token("req-body", function (req, res) {
     return JSON.stringify(req.body);
 });
+const cors = require('cors')
 
-const fs = require('fs');
-const filePath = './data.json';
 
-const data = require('./data.json')
-
-const host = 'localhost'
-const port = 3001
+const data = [
+  {
+    "id": 1,
+    "name": "Arto Hellas",
+    "number": "040-123456"
+  },
+  {
+    "id": 2,
+    "name": "Ada Lovelace",
+    "number": "39-44-5323523"
+  },
+  {
+    "id": 3,
+    "name": "Dan Abramov",
+    "number": "12-43-234345"
+  },
+  {
+    "id": 4,
+    "name": "Mary Poppendieck",
+    "number": "39-23-6423122"
+  },
+  {
+    "name": "Graces Hopper",
+    "number": "4242",
+    "id": 19515
+  },
+  {
+    "name": "tuan",
+    "number": "4242",
+    "id": 45591
+  }
+]
+const HOST = 'localhost'
+const PORT = process.env.PORT || 3001
 const generateId = () => {
-
-
     return Math.floor(Math.random() * 90000) + 10000;
 }
 const checkObjectKeysAndValues = (obj) => {
@@ -27,12 +54,14 @@ const checkObjectKeysAndValues = (obj) => {
 const checkName = (newData, data) => {
     return data.findIndex(person => person.name.toLowerCase() === (newData.name.toLowerCase()))
 }
+app.use(cors())
 app.use(morgan(':method :url :status :response-time ms - :req-body'));
 
 app.use(express.json())
+app.use(express.static('build'))
 
 app.get("/api/persons", (request, respone) => {
-    respone.status(200).send(data)
+    respone.status(200).json(data)
 })
 app.get('/info', (request, response) => {
     const now = new Date()
@@ -57,19 +86,16 @@ app.get('/api/persons/:id', (request, response) => {
         return response.status(200).send(persons)
     }
     return response.status(404).send(`id ${id} not found`)
-
 })
 
 app.delete('/api/persons/:id', (request, response) => {
     const id = Number(request.params.id);
 
-    let data = JSON.parse(fs.readFileSync(filePath));
 
     const index = data.findIndex(person => person.id === Number(id));
 
     if (index !== -1) {
         data.splice(index, 1);
-        fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
         return response.status(204).send(`id ${id} deleted success`);
     }
     return response.status(404).send(`id ${id} not exists`);
@@ -83,7 +109,6 @@ app.post("/api/persons", (request, respone) => {
         return respone.status(404).send('Data in wrong format or empty ')
     }
     // get file
-    let data = JSON.parse(fs.readFileSync(filePath));
     if (checkName(newData, data) !== -1) {
         return respone.status(404).send("Name must be unique")
     }
@@ -96,10 +121,9 @@ app.post("/api/persons", (request, respone) => {
     }
     // push new data
     data.push({ ...newData, id: newId })
-    fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
-    return respone.status(200).send(`name ${newData.name} added to phonebook`)
+    return respone.status(201).send(`name ${newData.name} added to phonebook`)
 })
-app.listen(port, host, () => {
-    console.log(`listening at host ${host} port ${port}....`)
+app.listen(PORT, HOST, () => {
+    console.log(`listening at host ${HOST} port ${PORT}....`)
 })
 

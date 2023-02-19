@@ -1,0 +1,17 @@
+# fly.toml file generated for tesingapp on 2023-02-19T01:50:06+02:00
+
+app = "tesingapp"
+
+[build]
+  builder = "heroku/buildpacks:20"
+
+[env]
+  PORT = "8080"
+
+[experimental]
+  auto_rollback = true
+
+[[services]]
+  http_checks = []
+  internal_port = 8080
+  processes = ["index"]

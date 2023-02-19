@@ -22,7 +22,7 @@ class Message {
 
 export const getData = (setState) => {
     axios
-        .get('/persons')
+        .get('/api/persons')
         .then(response => {
             if (response.status === 200) {
                 setState(response.data)
@@ -31,7 +31,7 @@ export const getData = (setState) => {
 }
 
 export const postNewdata = (data, setNewName, setNewNumber, setSytermMessage) => {
-    axios.post('/persons', data).then(response => {
+    axios.post('/api/persons', data).then(response => {
         if (response.status === 201) {
             setNewName('')
             setNewNumber(0)
@@ -48,9 +48,9 @@ export const postNewdata = (data, setNewName, setNewNumber, setSytermMessage) =>
 }
 
 export const deleteData = (id, name, setPersons, persons, setSytermMessage) => {
-    axios.delete(`/persons/${id}`).then(
+    axios.delete(`/api/persons/${id}`).then(
         response => {
-            if (response.status === 200) {
+            if (response.status === 204) {
                 let message = new Message(`${name} deleted`, 'success')
                 setSytermMessage(message.setSytermMessage())
                 message.setTimeout()
@@ -64,7 +64,7 @@ export const deleteData = (id, name, setPersons, persons, setSytermMessage) => {
     })
 }
 export const updateData = (id, newData, setSytermMessage) => {
-    axios.put(`/persons/${id}`, newData).then(
+    axios.put(`/api/persons/${id}`, newData).then(
         response => {
             if (response.status === 200) {
                 let message = new Message(`${newData.name} have been updated`, 'success')

@@ -39,11 +39,11 @@ export const postNewdata = (data, setNewName, setNewNumber, setSytermMessage) =>
             setSytermMessage(message.setSytermMessage())
             message.setTimeout()
         }
+       
     }).catch(error => {
-        let message = new Message(`${data.name} fail to add to phonebook`, 'error')
+        console.log(error)
+        let message = new Message(`${error.response.data}`, 'error')
         setSytermMessage(message.setSytermMessage())
-        message.setTimeout()
-
     })
 }
 
@@ -57,25 +57,9 @@ export const deleteData = (id, name, setPersons, persons, setSytermMessage) => {
             }
         }
     ).catch(error => {
-        let message = new Message(`the note '${name}' was already deleted from server`, 'error')
+        let message = new Message(`the note '${error.response.data}' was already deleted from server`, 'error')
         setSytermMessage(message.setSytermMessage())
 
         setPersons(persons.filter(n => n.id !== id))
-    })
-}
-export const updateData = (id, newData, setSytermMessage) => {
-    axios.put(`/api/persons/${id}`, newData).then(
-        response => {
-            if (response.status === 200) {
-                let message = new Message(`${newData.name} have been updated`, 'success')
-                setSytermMessage(message.setSytermMessage())
-                message.setTimeout()
-
-            }
-        }
-    ).catch(error => {
-        let message = new Message(`${newData.name} have been fail to update`, 'error')
-        setSytermMessage(message.setSytermMessage())
-        message.setTimeout()
     })
 }

@@ -59,9 +59,7 @@ app.use(morgan(':method :url :status :response-time ms - :req-body'));
 
 app.use(express.json())
 app.use(express.static('build'))
-// app.get('/', (req, res) => {
-//     res.status(200).send('<h1>welcome</h1>')
-// })
+
 app.get("/api/persons", (request, respone) => {
     respone.status(200).json(data)
 })

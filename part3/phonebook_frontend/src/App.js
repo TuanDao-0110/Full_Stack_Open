@@ -27,18 +27,10 @@ const App = () => {
   const handleSubmit = (e) => {
     e.preventDefault()
     let newPerson = { name: newName, number }
-    let indexExistPerson = checkExistPerson(persons, newName)
-    if (indexExistPerson === -1) {
       postNewdata(newPerson, setNewName, setNewNumber, setSytermMessage)
-    } else {
-      if (window.confirm(`${newName} is already to phoneBook , replace the old number with new one`)) {
-        updateData(persons[indexExistPerson].id, newPerson, setSytermMessage)
-      }
-    }
+    
   }
-  const checkExistPerson = (arr, personName) => {
-    return arr.findIndex(person => person.name.toLowerCase() === personName)
-  }
+
   const renderPersons = (arr) => {
     return arr.map((item, index) => {
       const { number, id, name, } = item

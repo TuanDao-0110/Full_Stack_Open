@@ -8,36 +8,36 @@ const cors = require('cors')
 
 
 const data = [
-  {
-    "id": 1,
-    "name": "Arto Hellas",
-    "number": "040-123456"
-  },
-  {
-    "id": 2,
-    "name": "Ada Lovelace",
-    "number": "39-44-5323523"
-  },
-  {
-    "id": 3,
-    "name": "Dan Abramov",
-    "number": "12-43-234345"
-  },
-  {
-    "id": 4,
-    "name": "Mary Poppendieck",
-    "number": "39-23-6423122"
-  },
-  {
-    "name": "Graces Hopper",
-    "number": "4242",
-    "id": 19515
-  },
-  {
-    "name": "tuan",
-    "number": "4242",
-    "id": 45591
-  }
+    {
+        "id": 1,
+        "name": "Arto Hellas",
+        "number": "040-123456"
+    },
+    {
+        "id": 2,
+        "name": "Ada Lovelace",
+        "number": "39-44-5323523"
+    },
+    {
+        "id": 3,
+        "name": "Dan Abramov",
+        "number": "12-43-234345"
+    },
+    {
+        "id": 4,
+        "name": "Mary Poppendieck",
+        "number": "39-23-6423122"
+    },
+    {
+        "name": "Graces Hopper",
+        "number": "4242",
+        "id": 19515
+    },
+    {
+        "name": "tuan",
+        "number": "4242",
+        "id": 45591
+    }
 ]
 const HOST = 'localhost'
 const PORT = process.env.PORT || 3001
@@ -59,7 +59,9 @@ app.use(morgan(':method :url :status :response-time ms - :req-body'));
 
 app.use(express.json())
 app.use(express.static('build'))
-
+app.get('/', (req, res) => {
+    res.status(200).send('<h1>welcome</h1>')
+})
 app.get("/api/persons", (request, respone) => {
     respone.status(200).json(data)
 })

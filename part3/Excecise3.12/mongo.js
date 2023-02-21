@@ -18,6 +18,14 @@ const personSchema = new mongoose.Schema({
     name: String,
     number: String,
     date: String,
+
+})
+personSchema.set('toJSON', {
+    transform: (document, returnedObject) => {
+        returnedObject.id = returnedObject._id.toString()
+        delete returnedObject._id
+        delete returnedObject.__v
+    }
 })
 
 const Person = mongoose.model('phonebook', personSchema)
@@ -33,9 +41,10 @@ const person = new Person({
 //     mongoose.connection.close()
 // })
 
-Person.find({}).then(result => {
+Person.find({},).then(result => {
+
     result.forEach(e => {
-        console.log(e)
+        console.log(e.toJSON())
     })
     mongoose.connection.close()
 })

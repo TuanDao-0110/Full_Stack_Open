@@ -116,7 +116,8 @@ app.put('/api/persons/:id', (request, response, next) => {
       response.status(201).json(updatePerson)
     })
     .catch(error => {
-      const { message, path } = error.errors.name.properties
+      let type = validateCheck(error.errors)
+      const { message, path } = error.errors[`${type}`].properties
       return response.status(404).send(`path ${path} ${message}`)
     }
     )
@@ -147,7 +148,6 @@ app.post('/api/persons', (request, response, next) => {
           .then(result => response.status(201).send(`name ${newData.name} added to phonebook`))
           .catch(error => {
             let type = validateCheck(error.errors)
-
             const { message, path } = error.errors[`${type}`].properties
             return response.status(404).send(`path ${path} ${message}`)
 

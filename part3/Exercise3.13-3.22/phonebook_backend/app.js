@@ -17,7 +17,7 @@ morgan.token('req-body', function (req, res) {
 
 mongoose.set('strictQuery', false)
 mongoose.connect(MONGODB_URI,).then(() => {
-  logger.info('connected to mongoDB')
+  logger.info('connecting to mongoDB')
 }).catch((error) => {
   logger.error('error connecting to MongoDB', error.message)
 })

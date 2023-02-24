@@ -5,7 +5,7 @@ const morgan = require('morgan')
 const mongoose = require('mongoose')
 const { MONGODB_URI } = require('./utils/config')
 const blogRouter = require('./controllers/blogRouter')
-const { unknownEndpoint, requestLogger } = require('./utils/middleware')
+const { unknownEndpoint, requestLogger, errorHandler } = require('./utils/middleware')
 const logger = require('./utils/logger')
 
 
@@ -27,6 +27,7 @@ app.use('/api/blogs', blogRouter)
 
 
 app.use(requestLogger)
+app.use(errorHandler)
 app.use(unknownEndpoint)
 
 

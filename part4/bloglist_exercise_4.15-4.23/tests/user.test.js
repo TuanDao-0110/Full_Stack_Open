@@ -13,8 +13,6 @@ describe('when there is initially one user in db', () => {
 
         await user.save()
     })
-
-
     test('creation succeeds with a fresh username with status code 201', async () => {
         const usersAtStart = await helper.usersInDb()
 

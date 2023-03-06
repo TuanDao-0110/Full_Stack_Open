@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import blogService from '../services/blogs'
-
 const Blog = ({ blog, deleteBlog }) => {
   const blogStyle = {
     paddingTop: 10,
@@ -11,7 +10,6 @@ const Blog = ({ blog, deleteBlog }) => {
   }
   const [state, setState] = useState(blog)
   const addLike = async () => {
-
     const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
@@ -20,12 +18,10 @@ const Blog = ({ blog, deleteBlog }) => {
       newData.likes += 1
       try {
         const result = await blogService.update(blog.id, newData)
-        console.log(result)
         setState({ ...result })
       } catch (error) {
         alert(error.message)
       }
-
     }
   }
 
@@ -36,8 +32,15 @@ const Blog = ({ blog, deleteBlog }) => {
 
   return < div style={blogStyle} className='blog'>
     <div>
+      <span>
 
-      {state.title}
+        {state.title}
+      </span>
+      by author:
+      <span>
+
+        {state.author}
+      </span>
       <button onClick={toogleView}>{view ? 'close' : 'view'}</button>
     </div>
     {
@@ -54,7 +57,7 @@ const Blog = ({ blog, deleteBlog }) => {
             url {state.url}
           </p>
           <button onClick={() => {
-            deleteBlog(state.author,state.id)
+            deleteBlog(state.author, state.id)
           }}>Remove</button>
         </>
         : ''
@@ -63,7 +66,8 @@ const Blog = ({ blog, deleteBlog }) => {
 
 }
 
+
+
+
 export default Blog
-
-
 

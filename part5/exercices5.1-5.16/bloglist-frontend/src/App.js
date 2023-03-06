@@ -6,13 +6,10 @@ import Notification from './components/Notification'
 import Togglable from './components/Togglable'
 import blogService from './services/blogs'
 import loginService from './services/login'
+
 const App = () => {
   const [blogs, setBlogs] = useState([])
-  const [newBlog, setNewBlog] = useState({
-    title: '',
-    author: '',
-    url: ''
-  })
+
   const [message, setMessage] = useState({
     type: '',
     content: null
@@ -80,8 +77,7 @@ const App = () => {
   }
 
 
-  const addBlog = (event) => {
-    event.preventDefault()
+  const addBlog = (newBlog) => {
 
     blogFormRef.current.toggleVisibility()
     blogService
@@ -91,11 +87,6 @@ const App = () => {
         setMessage({
           type: 'success',
           content: `${newBlog.title} by ${newBlog.author}`
-        })
-        setNewBlog({
-          author: '',
-          title: '',
-          url: ''
         })
         setTimeout(() => {
           setMessage({
@@ -120,11 +111,10 @@ const App = () => {
   const blogForm = () => (
     <Togglable buttonLabel="show add blog" ref={blogFormRef}>
       <BlogForm
-        newBlog={newBlog}
         user={user}
         setUser={setUser}
-        addBlog={addBlog}
-        setNewBlog={setNewBlog} />
+        createBlog={addBlog}
+      />
     </Togglable>
   )
 
@@ -135,16 +125,9 @@ const App = () => {
     <div>
       <h2>log in to application</h2>
       <Notification message={message} />
-
       {user === null ?
-
         loginForm()
-
-
-
-
         : blogForm()}
-
       {
         user !== null && blogs.sort((a, b) => a.likes - b.likes).map(blog =>
           <Blog key={blog.id} blog={blog} deleteBlog={deleteBlog} />

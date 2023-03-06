@@ -1,14 +1,31 @@
+import { useState } from 'react'
 
 
-const BlogForm = ({ newBlog, addBlog, user, setUser, setNewBlog }) => {
+const BlogForm = ({ createBlog, user, setUser, }) => {
+  const [newBlog, setNewBlog] = useState({
+    title: '',
+    author: '',
+    url: ''
+  })
+
+  const addBlog = (event) => {
+    event.preventDefault()
+    createBlog({ ...newBlog })
+    setNewBlog({
+      title: '',
+      author: '',
+      url: ''
+    })
+  }
   return <>
     {user.username} logged in {<button onClick={() => {
       localStorage.removeItem('loggedBlogappUser')
       setUser(null)
     }}>log out</button>}
-    <form onSubmit={addBlog}>
+    <form onSubmit={addBlog} >
       <label>title</label>
       <input
+        id="title"
         value={newBlog.title}
         onChange={(e) => {
           setNewBlog(prev => {
@@ -19,6 +36,7 @@ const BlogForm = ({ newBlog, addBlog, user, setUser, setNewBlog }) => {
       <br></br>
       <label>author</label>
       <input
+        id="author"
         value={newBlog.author}
         onChange={(e) => {
           setNewBlog(prev => {
@@ -30,6 +48,7 @@ const BlogForm = ({ newBlog, addBlog, user, setUser, setNewBlog }) => {
 
       <label>url</label>
       <input
+        id="url"
         value={newBlog.url}
         onChange={(e) => {
           setNewBlog(prev => {
@@ -38,7 +57,7 @@ const BlogForm = ({ newBlog, addBlog, user, setUser, setNewBlog }) => {
         }}
       />
       <br></br>
-      <button type="submit">save</button>
+      <button type="submit" id='submit'>save</button>
     </form>
   </>
 }

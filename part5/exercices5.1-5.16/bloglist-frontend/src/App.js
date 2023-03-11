@@ -28,6 +28,7 @@ const App = () => {
     }
   }, [])
   useEffect(() => {
+    console.log('get blog')
     blogService.getAll().then(blogs => setBlogs([...blogs]))
   }, [user])
   const handleLogin = async (event) => {
@@ -78,7 +79,6 @@ const App = () => {
 
 
   const addBlog = (newBlog) => {
-
     blogFormRef.current.toggleVisibility()
     blogService
       .create(newBlog)
@@ -118,19 +118,25 @@ const App = () => {
     </Togglable>
   )
 
+  const updateLike = (newBlogs) => {
+    const temp = [...blogs]
+    let index = temp.findIndex(blog => blog.id === newBlogs.id)
+    temp[index].likes++
+    setBlogs([...temp])
+  }
 
 
 
   return (
     <div>
-      <h2>log in to application</h2>
+      <h1>Blogs Application</h1>
       <Notification message={message} />
       {user === null ?
         loginForm()
         : blogForm()}
       {
         user !== null && blogs.sort((a, b) => a.likes - b.likes).map(blog =>
-          <Blog key={blog.id} blog={blog} deleteBlog={deleteBlog} />
+          <Blog key={blog.id} blog={blog} deleteBlog={deleteBlog} updateLike={updateLike} />
         )
       }
 

@@ -1,6 +1,6 @@
-import { useState } from 'react'
+import { Fragment, useState } from 'react'
 import blogService from '../services/blogs'
-const Blog = ({ blog, deleteBlog }) => {
+const Blog = ({ blog, deleteBlog, updateLike }) => {
   const blogStyle = {
     paddingTop: 10,
     paddingLeft: 2,
@@ -19,6 +19,7 @@ const Blog = ({ blog, deleteBlog }) => {
       try {
         const result = await blogService.update(blog.id, newData)
         setState({ ...result })
+        updateLike(state)
       } catch (error) {
         alert(error.message)
       }
@@ -36,18 +37,17 @@ const Blog = ({ blog, deleteBlog }) => {
 
         {state.title}
       </span>
+      {' '}
       by author:
       <span>
-
         {state.author}
+        <button onClick={toogleView}>{view ? 'close' : 'view'}</button>
       </span>
-      <button onClick={toogleView}>{view ? 'close' : 'view'}</button>
     </div>
     {
       view ?
-        <>
+        <Fragment>
           <p>
-
             author:   {state.author}
           </p>
           <p>
@@ -55,11 +55,12 @@ const Blog = ({ blog, deleteBlog }) => {
           </p>
           <p>
             url {state.url}
+            {' '}
+            <button onClick={() => {
+              deleteBlog(state.author, state.id)
+            }}>Remove</button>
           </p>
-          <button onClick={() => {
-            deleteBlog(state.author, state.id)
-          }}>Remove</button>
-        </>
+        </Fragment>
         : ''
     }
   </ div >

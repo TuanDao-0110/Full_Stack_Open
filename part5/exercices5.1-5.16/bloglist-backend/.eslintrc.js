@@ -7,6 +7,9 @@ module.exports = {
         'jest': true
     },
     'extends': 'eslint:recommended',
+    "plugins": [
+        "react", "jest", "cypress"
+    ],
     'overrides': [
     ],
     'parserOptions': {

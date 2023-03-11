@@ -22,6 +22,7 @@ const BlogForm = ({ createBlog, user, setUser, }) => {
       localStorage.removeItem('loggedBlogappUser')
       setUser(null)
     }}>log out</button>}
+    <h2>new blog</h2>
     <form onSubmit={addBlog} >
       <label>title</label>
       <input

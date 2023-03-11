@@ -1,6 +1,7 @@
 const blogRouter = require('express').Router()
 const Blog = require('../models/model')
 const User = require('../models/user')
+const { userExtractor } = require('../utils/middleware')
 require('express-async-errors')
 
 blogRouter
@@ -15,7 +16,7 @@ blogRouter
             return response.json(blog)
         } return response.status(404).end()
     })
-    .post('/', async (request, response) => {
+    .post('/', userExtractor, async (request, response) => {
         const { author, title, url, likes } = request.body
         if (!request.user.id) {
             return response.status(401).json({ error: 'token invalid' })
@@ -33,7 +34,7 @@ blogRouter
         await user.save()
         return response.status(201).json(savedNote)
     })
-    .delete('/:id', async (request, response,next) => {
+    .delete('/:id', userExtractor, async (request, response, next) => {
         const id = request.params.id
         if (!request.user.id) {
             return response.status(401).json({ error: 'token invalid' })
@@ -45,9 +46,9 @@ blogRouter
             user.save()
             await blog.remove()
             return response.status(204).end()
-        }else{
+        } else {
             const error = new Error
-            error.message ='blog belong to other user'
+            error.message = 'blog belong to other user'
             error.name = 'ValidationError'
             next(error)
         }

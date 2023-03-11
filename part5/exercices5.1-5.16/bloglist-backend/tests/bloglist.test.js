@@ -15,7 +15,7 @@ describe('posting', () => {
             })
             .expect(401)
             .expect('Content-Type', /application\/json/)
-    })
+    },200)
 })
 afterAll(async () => {
     await mongoose.connection.close()

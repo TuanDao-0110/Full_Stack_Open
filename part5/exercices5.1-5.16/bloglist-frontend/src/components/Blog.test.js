@@ -1,5 +1,4 @@
 import React from 'react'
-// import { jest } from '@jest/globals'
 import '@testing-library/jest-dom/extend-expect'
 import { render, screen } from '@testing-library/react'
 import Blog from './Blog'
@@ -91,7 +90,7 @@ test('step 2 vs 3, checks that the blog URL and number of likes are shown when t
     id: '1234'
   }
   // 1. set up the component
-  const component = render(<Blog blog={blog} />)
+  render(<Blog blog={blog} />)
 
   // 2. click the 'view' button to show the details
   const viewButton = screen.getByText(/view/i)

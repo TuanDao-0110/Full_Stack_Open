@@ -13,7 +13,6 @@ const logger = require('./utils/logger')
 
 
 mongoose.set('strictQuery', false)
-console.log(MONGODB_URI)
 mongoose.connect(MONGODB_URI)
     .then(() => {
         logger.info('connect mongoDB')

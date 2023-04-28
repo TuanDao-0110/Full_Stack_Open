@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit"
 import apiService from '../services/notes'
+import { closeNotification, openNotification } from "./notificateReducer"
 
 const initialState = []
 
@@ -39,5 +40,16 @@ export const createNewAs = (content) => {
     dispatch(setNewAnecodeotes(newAs))
   }
 }
-export const { setNewAnecodeotes, newVote, appendAnecdotes, setAs } = anecdoteSlicer.actions
+
+export const addVote = (id) => {
+  return async dispatch => {
+    const newAs = await apiService.updateVote(id)
+    dispatch(newVote(id))
+    dispatch(openNotification(`You Voted: "${newAs.content}", ${newAs.votes}`))
+    setTimeout(() => {
+      dispatch(closeNotification())
+    }, 5000)
+  }
+}
+export const { setNewAnecodeotes, newVote, appendAnecdotes, setAs, } = anecdoteSlicer.actions
 export default anecdoteSlicer.reducer

@@ -1,12 +1,12 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
-import { createFilter } from '../reducers/filterReducer'
+import { setFilter } from '../reducers/filterReducer'
 
 function Filter() {
     const dispatch = useDispatch()
     const startFilter = (e) => {
         const content = e.target.value
-        dispatch(createFilter(content))
+        dispatch(setFilter(content))
     }
 
     const style = {

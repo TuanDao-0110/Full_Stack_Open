@@ -2,15 +2,17 @@ import React from 'react'
 import { useDispatch } from 'react-redux'
 import { setNewAnecodeotes } from '../reducers/anecdoteReducer'
 import { closeNotification, openNotification } from '../reducers/notificateReducer'
+import apiService from '../services/notes'
 
 const AnecdoteForm = () => {
     const dispatch = useDispatch()
 
-    const newAnecdotes = (event) => {
+    const newAnecdotes = async (event) => {
         event.preventDefault()
         const content = event.target.anecdotes.value
         event.target.anecdotes.value = ''
-        dispatch(setNewAnecodeotes(content))
+        const newAs = await apiService.createNew(content)
+        dispatch(setNewAnecodeotes(newAs))
         dispatch(openNotification('New anecdotes add: ' + `"${content}"`))
         setTimeout(() => {
             dispatch(closeNotification())

@@ -9,14 +9,16 @@ import notificateReducer from './reducers/notificateReducer'
 
 
 const store = configureStore({
-  reducer:{
+  reducer: {
     anecdote: anecdoteReducer,
     filter: filterReducer,
-    notification:notificateReducer
+    notification: notificateReducer
   }
 })
 
-console.log(store.getState())
+
+
+
 ReactDOM.createRoot(document.getElementById('root')).render(
   <Provider store={store}>
     <App />

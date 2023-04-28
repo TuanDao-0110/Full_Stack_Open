@@ -3,16 +3,15 @@ import { useDispatch, useSelector } from 'react-redux'
 import { updateVote } from '../reducers/anecdoteReducer'
 
 function AnecdoteList() {
-    const anecdotes = useSelector(state => state)
+    const anecdotes = useSelector(state => state.anecdote)
+    const filter = useSelector(state => state.filter)
     const dispatch = useDispatch()
-
     const vote = (id) => {
         dispatch(updateVote(id))
     }
-
     return (
         <div>
-            {anecdotes.sort((a, b) => b.votes - a.votes).map(anecdote =>
+            {anecdotes.filter(e => e.content.toUpperCase().includes(filter.toUpperCase())).sort((a, b) => b.votes - a.votes).map(anecdote =>
                 <div key={anecdote.id}>
                     <div>
                         {anecdote.content}

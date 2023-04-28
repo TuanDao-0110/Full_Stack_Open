@@ -1,33 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit"
+import apiService from '../services/notes'
 
-// const anecdotesAtStart = [
-//   'If it hurts, do it more often',
-//   'Adding manpower to a late software project makes it later!',
-//   'The first 90 percent of the code accounts for the first 90 percent of the development time...The remaining 10 percent of the code accounts for the other 90 percent of the development time.',
-//   'Any fool can write code that a computer can understand. Good programmers write code that humans can understand.',
-//   'Premature optimization is the root of all evil.',
-//   'Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.'
-// ]
-
-const getId = () => (100000 * Math.random()).toFixed(0)
-
-// const asObject = (anecdote) => {
-//   return {
-//     content: anecdote,
-//     id: getId(),
-//     votes: 0
-//   }
-// }
-
-// const initialState = anecdotesAtStart.map(asObject)
 const initialState = []
 
 const anecdoteSlicer = createSlice({
   name: 'anecdotes',
   initialState,
   reducers: {
+    setAs(state, action) {
+      return action.payload
+    },
     setNewAnecodeotes(state, action) {
-     
       let temp = [...state]
       temp.push(action.payload)
       return [...temp]
@@ -43,5 +26,18 @@ const anecdoteSlicer = createSlice({
   }
 })
 
-export const { setNewAnecodeotes, newVote, appendAnecdotes } = anecdoteSlicer.actions
+export const initializeAs = () => {
+  return async dispatch => {
+    const newAs = await apiService.getAll()
+    dispatch(setAs(newAs))
+  }
+}
+
+export const createNewAs = (content) => {
+  return async dispatch => {
+    const newAs = await apiService.createNew(content)
+    dispatch(setNewAnecodeotes(newAs))
+  }
+}
+export const { setNewAnecodeotes, newVote, appendAnecdotes, setAs } = anecdoteSlicer.actions
 export default anecdoteSlicer.reducer

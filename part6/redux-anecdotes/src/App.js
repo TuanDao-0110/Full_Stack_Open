@@ -4,17 +4,12 @@ import AnecdoteForm from './components/AnecdoteForm'
 import AnecdoteList from './components/AnecdoteList'
 import Filter from './components/Filter'
 import Notification from './components/Notification'
-import { appendAnecdotes } from './reducers/anecdoteReducer'
-import apiService from './services/notes'
+import { initializeAs } from './reducers/anecdoteReducer'
 
 const App = () => {
   const dispatch = useDispatch()
   useEffect(() => {
-    apiService.getAll().then((result) => {
-      result.forEach(as => dispatch(appendAnecdotes(as)))
-    }).catch((err) => {
-
-    });
+    dispatch(initializeAs())
   }, [dispatch])
   return (
     <div>

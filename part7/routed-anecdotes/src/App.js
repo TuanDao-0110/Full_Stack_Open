@@ -3,11 +3,10 @@ import {
   Routes,
   Route,
   Link,
-  Navigate,
-  useParams,
   useNavigate,
   useMatch
 } from "react-router-dom"
+import { useField } from './hooks/hooks'
 const Menu = () => {
   const padding = {
     paddingRight: 5
@@ -65,43 +64,65 @@ const Footer = () => (
 )
 
 const CreateNew = (props) => {
-  const [content, setContent] = useState('')
-  const [author, setAuthor] = useState('')
-  const [info, setInfo] = useState('')
-const navigate = useNavigate()
+  const content = useField('text')
+  const author = useField('text')
+  const infor = useField('text')
+
+  const navigate = useNavigate()
 
   const handleSubmit = (e) => {
     e.preventDefault()
     props.addNew({
-      content,
-      author,
-      info,
+      content: content.value,
+      author: author.value,
+      info: infor.value,
       votes: 0
     })
-    props.setNotification(`a new anecdote ${content} created!`)
+    props.setNotification(`a new anecdote ${content.value} created!`)
     navigate('/')
     setTimeout(() => {
       props.setNotification('')
     }, (5000));
   }
 
+  const resetAll = () => {
+    content.reset()
+    author.reset()
+    infor.reset()
+
+  }
   return (
     <div>
       <h2>create a new anecdote</h2>
       <form onSubmit={handleSubmit}>
         <div>
           content
-          <input name='content' value={content} onChange={(e) => setContent(e.target.value)} required/>
+          <input name='content'
+            // {...content}
+            value={content.value}
+            onChange={content.onChange}
+            required />
         </div>
         <div>
           author
-          <input name='author' value={author} onChange={(e) => setAuthor(e.target.value)} required/>
+          <input name='author'
+            // {...author}
+            value={author.value}
+            onChange={author.onChange}
+            required />
         </div>
         <div>
           url for more info
-          <input name='info' value={info} onChange={(e) => setInfo(e.target.value)} required/>
+          <input name='info'
+            // {...infor}
+            value={infor.value}
+            onChange={infor.onChange}
+            required />
         </div>
-        <button>create</button>
+        <button >create</button>
+        <button onClick={resetAll} style={{
+          margin: '0 10px '
+        }}>reset</button>
       </form>
     </div>
   )

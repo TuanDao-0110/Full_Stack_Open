@@ -1,14 +1,22 @@
 import { useState } from 'react'
-
+import {
+  Routes,
+  Route,
+  Link,
+  Navigate,
+  useParams,
+  useNavigate,
+  useMatch
+} from "react-router-dom"
 const Menu = () => {
   const padding = {
     paddingRight: 5
   }
   return (
     <div>
-      <a href='#' style={padding}>anecdotes</a>
-      <a href='#' style={padding}>create new</a>
-      <a href='#' style={padding}>about</a>
+      <Link to={'/'} style={padding}>anecdotes</Link>
+      <Link to={'/create'} style={padding}>create new</Link>
+      <Link to={'/about'} style={padding}>about</Link>
     </div>
   )
 }
@@ -17,11 +25,23 @@ const AnecdoteList = ({ anecdotes }) => (
   <div>
     <h2>Anecdotes</h2>
     <ul>
-      {anecdotes.map(anecdote => <li key={anecdote.id} >{anecdote.content}</li>)}
+      {anecdotes.map(anecdote => <li key={anecdote.id} >
+        <Link to={`/anecdotes/${anecdote.id}`}>
+          {anecdote.content}
+        </Link>
+      </li>)}
     </ul>
   </div>
 )
-
+const SingleAnecodte = ({ anecdotes }) => {
+  const match = useMatch('/anecdotes/:id')
+  const singleAs = match ? anecdotes.find(e => e.id === Number(match.params.id)) : null
+  return (<div>
+    <h1>{singleAs.content} by {singleAs.author}</h1>
+    <p>has {singleAs.votes}</p>
+    <p>for more infor see {singleAs.info}</p>
+  </div>)
+}
 const About = () => (
   <div>
     <h2>About anecdote app</h2>
@@ -48,7 +68,7 @@ const CreateNew = (props) => {
   const [content, setContent] = useState('')
   const [author, setAuthor] = useState('')
   const [info, setInfo] = useState('')
-
+const navigate = useNavigate()
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -58,6 +78,11 @@ const CreateNew = (props) => {
       info,
       votes: 0
     })
+    props.setNotification(`a new anecdote ${content} created!`)
+    navigate('/')
+    setTimeout(() => {
+      props.setNotification('')
+    }, (5000));
   }
 
   return (
@@ -66,15 +91,15 @@ const CreateNew = (props) => {
       <form onSubmit={handleSubmit}>
         <div>
           content
-          <input name='content' value={content} onChange={(e) => setContent(e.target.value)} />
+          <input name='content' value={content} onChange={(e) => setContent(e.target.value)} required/>
         </div>
         <div>
           author
-          <input name='author' value={author} onChange={(e) => setAuthor(e.target.value)} />
+          <input name='author' value={author} onChange={(e) => setAuthor(e.target.value)} required/>
         </div>
         <div>
           url for more info
-          <input name='info' value={info} onChange={(e)=> setInfo(e.target.value)} />
+          <input name='info' value={info} onChange={(e) => setInfo(e.target.value)} required/>
         </div>
         <button>create</button>
       </form>
@@ -126,9 +151,13 @@ const App = () => {
     <div>
       <h1>Software anecdotes</h1>
       <Menu />
-      <AnecdoteList anecdotes={anecdotes} />
-      <About />
-      <CreateNew addNew={addNew} />
+      {notification}
+      <Routes>
+        <Route path='/' element={<AnecdoteList anecdotes={anecdotes} />} />
+        <Route path='/anecdotes/:id' element={<SingleAnecodte anecdotes={anecdotes} />}></Route>
+        <Route path='/about' element={<About />} />
+        <Route path='/create' element={<CreateNew addNew={addNew} setNotification={setNotification} />} />
+      </Routes>
       <Footer />
     </div>
   )

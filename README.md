@@ -34,3 +34,13 @@ https://phonebook-m3p7.onrender.com/
 2. [x] props.children and protypes
 3. [x] Testing React apps
 4. [x] End to end testing
+
+## Part-6:
+1. [x] Flux-architecture and redux
+2. [x] Many reducers
+3. [x] Communicating with server in a redux application
+4. []  React query, useReducer  and the context
+5. []  connect (the old part)
+
+## Part-7:
+

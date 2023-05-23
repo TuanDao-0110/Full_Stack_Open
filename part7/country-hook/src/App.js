@@ -17,7 +17,6 @@ const useField = (type) => {
 
 const useCountry = (name) => {
   const [country, setCountry] = useState(null)
-
   useEffect(() => {
     const fetchCountry = async () => {
       try {
@@ -37,7 +36,6 @@ const useCountry = (name) => {
 
 
 const Country = ({ country }) => {
-  console.log(country)
   if (!country) {
     return null
   }

@@ -1,0 +1,18 @@
+{
+  "name": "exercices5.1-5.12",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start:backend": "cd bloglist-backend && npm run start",
+    "start:frontend": "cd bloglist-frontend && npm run start",
+    "start:all": "npm run start:backend & npm run start:frontend",
+    "start:test:server": "cd bloglist-backend && npm run start:test"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "prettier": "3.0.0"
+  }
+}

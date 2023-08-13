@@ -18,7 +18,7 @@ const Blog = ({ blog, deleteBlog, updateLike }) => {
             newData.likes += 1;
             try {
                 const result = await blogService.update(blog.id, newData);
-                setState({ ...result });
+                setState({ ...result});
                 updateLike(state);
             } catch (error) {
                 alert(error.message);

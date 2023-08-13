@@ -1,12 +1,14 @@
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { removeUser } from '../reducer/userInfor';
 
-const BlogForm = ({ createBlog, user, setUser }) => {
+const BlogForm = ({ createBlog, user }) => {
     const [newBlog, setNewBlog] = useState({
         title: '',
         author: '',
         url: ''
     });
-
+const dispatch = useDispatch()
     const addBlog = (event) => {
         event.preventDefault();
         createBlog({ ...newBlog });
@@ -23,7 +25,8 @@ const BlogForm = ({ createBlog, user, setUser }) => {
                 <button
                     onClick={() => {
                         localStorage.removeItem('loggedBlogappUser');
-                        setUser(null);
+                        // setUser(null);
+                        dispatch(removeUser())
                     }}
                 >
                     log out

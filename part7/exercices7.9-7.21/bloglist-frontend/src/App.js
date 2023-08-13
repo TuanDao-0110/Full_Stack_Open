@@ -1,5 +1,4 @@
-/* eslint-disable indent */
-/* eslint-disable react/react-in-jsx-scope */
+/* eslint-disable no-unused-vars */
 import { useState, useEffect, useRef } from 'react';
 import Blog from './components/Blog';
 import BlogForm from './components/BlogForm';
@@ -8,34 +7,33 @@ import Notification from './components/Notification';
 import Togglable from './components/Togglable';
 import blogService from './services/blogs';
 import loginService from './services/login';
-
+import { useDispatch } from 'react-redux';
+import { closeNote, openNote } from './reducer/notificationReducer';
+import { useSelector } from 'react-redux';
+import { setAllBlog, setNewBlog } from './reducer/blogReducer';
+import { addUser } from './reducer/userInfor';
 const App = () => {
-    const [blogs, setBlogs] = useState([]);
-
-    const [message, setMessage] = useState({
-        type: '',
-        content: null
-    });
-    const [user, setUser] = useState(null);
+    const { blogs } = useSelector((state) => state.blogReducer);
+    const {user} = useSelector(state => state.userInfor)
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const blogFormRef = useRef();
 
+    const blogFormRef = useRef();
+    const dispatch = useDispatch();
     useEffect(() => {
         const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser');
         if (loggedUserJSON) {
             const user = JSON.parse(loggedUserJSON);
-            setUser(user);
+            // setUser(user);
+            dispatch(addUser(user))
             blogService.setToken(user.token);
         }
     }, []);
     useEffect(() => {
-        console.log('get blog');
-        blogService.getAll().then((blogs) => setBlogs([...blogs]));
+        blogService.getAll().then((blogs) => dispatch(setAllBlog([...blogs])));
     }, [user]);
     const handleLogin = async (event) => {
         event.preventDefault();
-        console.log(username, password);
         try {
             const user = await loginService.login({
                 username,
@@ -43,20 +41,27 @@ const App = () => {
             });
             window.localStorage.setItem('loggedBlogappUser', JSON.stringify(user));
             blogService.setToken(user.token);
-            setUser(user);
+            // setUser(user);
+            dispatch(addUser(user))
             setUsername('');
             setPassword('');
         } catch (exception) {
-            setMessage({
-                type: 'error',
-                content: 'wrong username or password'
-            });
-
+            // setMessage({
+            //   type: 'error',
+            //   content: 'wrong username or password'
+            // });
+            dispatch(
+                openNote({
+                    type: 'error',
+                    content: 'wrong username or password'
+                })
+            );
             setTimeout(() => {
-                setMessage({
-                    type: null,
-                    content: ''
-                });
+                // setMessage({
+                //   type: null,
+                //   content: ''
+                // });
+                dispatch(closeNote());
             }, 5000);
         }
     };
@@ -77,16 +82,15 @@ const App = () => {
     const addBlog = (newBlog) => {
         blogFormRef.current.toggleVisibility();
         blogService.create(newBlog).then((returnedBlog) => {
-            setBlogs(blogs.concat(returnedBlog));
-            setMessage({
-                type: 'success',
-                content: `${newBlog.title} by ${newBlog.author}`
-            });
+            dispatch(setNewBlog(returnedBlog));
+            dispatch(
+                openNote({
+                    type: 'success',
+                    content: `${newBlog.title} by ${newBlog.author}`
+                })
+            );
             setTimeout(() => {
-                setMessage({
-                    type: null,
-                    content: ''
-                });
+                dispatch(closeNote());
             }, 5000);
         });
     };
@@ -96,7 +100,8 @@ const App = () => {
             if (confirm) {
                 await blogService.deleteBlog(id);
                 alert(`deleted success blog by ${author}`);
-                blogService.getAll().then((blogs) => setBlogs([...blogs]));
+                // blogService.getAll().then((blogs) => setBlogs([...blogs]));
+                blogService.getAll().then((blogs) => dispatch(setAllBlog([...blogs])));
             }
         } catch (error) {
             alert(error.response.data.error);
@@ -104,33 +109,36 @@ const App = () => {
     };
     const blogForm = () => (
         <Togglable buttonLabel="show add blog" ref={blogFormRef}>
-            <BlogForm user={user} setUser={setUser} createBlog={addBlog} />
+            <BlogForm user={user} createBlog={addBlog} />
         </Togglable>
     );
-
     const updateLike = (newBlogs) => {
         const temp = [...blogs];
         let index = temp.findIndex((blog) => blog.id === newBlogs.id);
         temp[index].likes++;
-        setBlogs([...temp]);
+        dispatch(setAllBlog([...temp]))
     };
-
+    const sortBlogs = () => {
+        if (blogs.length > 0) {
+            let temp = [...blogs]
+            temp.sort((a, b) => a.likes - b.likes)
+            return temp
+                ?.map((blog) => (
+                    <Blog
+                        key={blog.id}
+                        blog={blog}
+                        deleteBlog={deleteBlog}
+                        updateLike={updateLike}
+                    />
+                ))
+        }
+    }
     return (
         <div>
             <h1>Blogs Application</h1>
-            <Notification message={message} />
+            <Notification />
             {user === null ? loginForm() : blogForm()}
-            {user !== null &&
-                blogs
-                    .sort((a, b) => a.likes - b.likes)
-                    .map((blog) => (
-                        <Blog
-                            key={blog.id}
-                            blog={blog}
-                            deleteBlog={deleteBlog}
-                            updateLike={updateLike}
-                        />
-                    ))}
+            {user !== null && sortBlogs()}
         </div>
     );
 };

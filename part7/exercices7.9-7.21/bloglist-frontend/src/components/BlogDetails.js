@@ -4,6 +4,13 @@ import { useLocation } from 'react-router-dom'
 import { setNewBlog } from '../reducer/blogReducer';
 import blogService from '../services/blogs';
 import { getAllComment } from '../reducer/commentReducer';
+import Form from 'react-bootstrap/Form';
+import InputGroup from 'react-bootstrap/InputGroup';
+import Button from 'react-bootstrap/esm/Button';
+import ListGroup from 'react-bootstrap/ListGroup';
+import Table from 'react-bootstrap/Table';
+import Card from 'react-bootstrap/Card';
+
 
 export default function BlogDetails() {
     const [comment, setComment] = useState('')
@@ -45,7 +52,7 @@ export default function BlogDetails() {
 
     const renderComment = () => {
         return comments.listComments ? comments?.listComments.map((item, index) => {
-            return <p key={index}>{item}</p>
+            return <ListGroup.Item as="li" key={index}>{item}</ListGroup.Item>
         }) :
             <></>
     }
@@ -64,48 +71,65 @@ export default function BlogDetails() {
     const renderBlogs = () => {
         return blogs.map((item, index) => {
             if (state.id === item.id)
-                return <div className="blog" key={index} >
-                    <div>
-                        <h3>Blog details</h3>
-                    </div>
-                    <div style={{ fontSize: '2rem', fontWeight: 'bold' }}>
-                        <span >{item.title}</span> by author:{item.author}
-                    </div>
-                    <div>
-                        <p>author: {item.author}</p>
-                        <p>
-                            likes: {item.likes} <button onClick={addLike}>like</button>
-                        </p>
-                        <p>
-                            url : <a href={item.url}>
-                                {item.url}
-                            </a>
-                        </p>
-                        <p>
-                            add by {item.user.name}
-                        </p>
-                    </div>
-                    <div>
-                        <h2>Comments</h2>
-                        <div>
-                            <input value={comment} onChange={(e) => {
-                                setComment(e.target.value)
-                            }} />
+                return <Card style={{ width: '50rem' }} key={index} >
+                    <Card.Body>
+                        <Card.Header>
+                            <Card.Title>
 
+                                <span >{item.title}</span> by author:{item.author}
+                            </Card.Title>
+                        </Card.Header>
 
-                            <button onClick={() => {
-                                addNewComment()
-                            }} >add comment</button>
+                        <div className="blog" >
+                            <div>
+                                {/* <h3>Blog details</h3> */}
+                            </div>
+                            <div >
+
+                            </div>
+                            <Table>
+
+                                <p>author: {item.author}</p>
+                                <p>
+                                    likes: {item.likes} <Button variant='success' onClick={addLike}>like 👍</Button>
+                                </p>
+                                <p>
+                                    url 👉: <a href={item.url}>
+                                        {item.url}
+                                    </a>
+                                </p>
+                                <p>
+                                    add by <span style={{ fontWeight: '800', fontSize: '1.5rem' }}>
+
+                                        {item.user.name}
+                                    </span>
+                                </p>
+                            </Table>
+                            <div>
+                                <h2>Comments</h2>
+                                <InputGroup>
+
+                                    <Form.Control width={'md'} aria-label="input your new comment" value={comment} onChange={(e) => {
+                                        setComment(e.target.value)
+                                    }} />
+
+                                    <Button onClick={() => {
+                                        addNewComment()
+                                    }} >add comment</Button>
+                                </InputGroup>
+                                <ListGroup as="ol" style={{ paddingTop: '2rem' }}>
+
+                                    {renderComment()}
+                                </ListGroup>
+                            </div>
                         </div>
-                        {renderComment()}
-                    </div>
-                </div>
-
+                    </Card.Body>
+                </Card>
         })
     }
     return (
-        <>
+        <div className='' style={{ display: 'flex', alignContent: 'center', justifyContent: 'center' }}>
             {renderBlogs()}
-        </>
+        </div>
     )
 }

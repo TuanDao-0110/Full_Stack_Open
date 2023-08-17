@@ -14,6 +14,12 @@ import UserLayout from "./router/UserLayout";
 import BlogLayout from "./router/BlogLayout";
 import BlogList from "./components/BlogList";
 import BlogDetails from "./components/BlogDetails";
+import Container from 'react-bootstrap/Container';
+import Nav from 'react-bootstrap/Nav';
+import Navbar from 'react-bootstrap/Navbar';
+import Button from 'react-bootstrap/Button';
+
+
 const App = () => {
     const dispatch = useDispatch();
     const { user } = useSelector(state => state.userInfor)
@@ -34,7 +40,8 @@ const App = () => {
                 <div>---</div>
                 <div>
                     {
-                        <button
+                        <Button
+                            variant="dark"
                             onClick={() => {
                                 localStorage.removeItem('loggedBlogappUser');
                                 // setUser(null);
@@ -42,21 +49,26 @@ const App = () => {
                             }}
                         >
                             log out
-                        </button>
+                        </Button>
                     }
                 </div>
             </div> : <></>
     }
     return (
-        <>
-            <div style={{ background: '#D3D3D3', display: 'flex', gap: '0.5rem', padding: '0.5rem 0' }}>
-                <a href="/">home</a>
-                {'      '}
-                <a href="/users">user</a>
-                {'      '}
-                <a href="/blogs">blog</a>
-                {showUser()}
-            </div>
+        <div className="container" style={{ textTransform: 'capitalize' }}>
+            <Navbar bg="primary" data-bs-theme="dark" >
+                <Container>
+                    <Nav className="me-auto" >
+                        <Nav.Link href="/">Home</Nav.Link>
+                        <Nav.Link href="/users">user</Nav.Link>
+                        <Nav.Link href="/blogs">blog</Nav.Link>
+                        <Nav.Link >
+                            {showUser()}
+                        </Nav.Link>
+
+                    </Nav>
+                </Container>
+            </Navbar>
             <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="blogs" element={<BlogLayout />}>
@@ -68,7 +80,7 @@ const App = () => {
                     <Route path=":id" element={<UserDetails />} />
                 </Route>
             </Routes>
-        </>
+        </div>
     );
 };
 

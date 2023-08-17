@@ -5,8 +5,7 @@ import { Outlet } from 'react-router-dom'
 export default function BlogLayout() {
   const { user } = useSelector(state => state.userInfor)
   return user !== null ? (
-    <div>
-      <h3>Blog App</h3>
+    <div style={{paddingTop:'1rem'}}>
       <Outlet />
     </div>
   ) : <></>

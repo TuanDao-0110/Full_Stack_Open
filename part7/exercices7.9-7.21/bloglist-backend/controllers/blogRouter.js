@@ -73,7 +73,6 @@ blogRouter
   })
   .post('/:id/comment', async (request, response) => {
     const id = request.params.id
-    console.log(request.body)
     if (id) {
       const blog = await Blog.findById(id)
       if (!blog) {

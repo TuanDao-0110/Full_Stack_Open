@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import Button from 'react-bootstrap/esm/Button';
 
 const LoginForm = ({
     handleLogin,
@@ -8,7 +9,7 @@ const LoginForm = ({
     handlePasswordChange
 }) => {
     return (
-        <form onSubmit={handleLogin}>
+        <form onSubmit={handleLogin} style={{paddingBottom:'1rem'}}>
             <div>
                 username
                 <input
@@ -29,9 +30,9 @@ const LoginForm = ({
                     onChange={handlePasswordChange}
                 />
             </div>
-            <button type="submit" id="login-button" onClick={() => {}}>
+            <Button   type="submit" id="login-button" onClick={() => {}}>
                 login
-            </button>
+            </Button>
         </form>
     );
 };

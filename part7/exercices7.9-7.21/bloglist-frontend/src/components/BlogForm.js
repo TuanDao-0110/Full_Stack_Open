@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { removeUser } from '../reducer/userInfor';
+import Button from 'react-bootstrap/Button';
 
 const BlogForm = ({ createBlog, user }) => {
     const [newBlog, setNewBlog] = useState({
@@ -24,7 +25,7 @@ const BlogForm = ({ createBlog, user }) => {
             {
                 user && <>
                     {user.username} logged in
-                    <button
+                    <Button
                         onClick={() => {
                             localStorage.removeItem('loggedBlogappUser');
                             // setUser(null);
@@ -32,13 +33,13 @@ const BlogForm = ({ createBlog, user }) => {
                         }}
                     >
                         log out
-                    </button>
+                    </Button>
                 </>
 
             }
             <h2>new blog</h2>
-            <form onSubmit={addBlog}>
-                <label>title</label>
+            <form onSubmit={addBlog} style={{ paddingBottom: "1rem" }}>
+                <label>title:</label>
                 <input
                     id="title"
                     value={newBlog.title}
@@ -49,7 +50,7 @@ const BlogForm = ({ createBlog, user }) => {
                     }}
                 />
                 <br></br>
-                <label>author</label>
+                <label>author: </label>
                 <input
                     id="author"
                     value={newBlog.author}
@@ -61,7 +62,7 @@ const BlogForm = ({ createBlog, user }) => {
                 />
                 <br></br>
 
-                <label>url</label>
+                <label>url: </label>
                 <input
                     id="url"
                     value={newBlog.url}
@@ -72,10 +73,10 @@ const BlogForm = ({ createBlog, user }) => {
                     }}
                 />
                 <br></br>
-                <button type="submit" id="submit">
+                <Button variant="success" type="submit" id="submit" style={{ paddingBottom: '' }}>
                     save
-                </button>
-            </form>
+                </Button>
+            </form >
         </>
     );
 };

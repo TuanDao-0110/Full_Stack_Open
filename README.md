@@ -43,3 +43,8 @@ https://phonebook-m3p7.onrender.com/
 5. [x]  connect (the old part)
 
 ## Part-7:
+
+1. [x] React Router
+2. [x] Custome hooks
+3. [x] Redux
+4. [x] Stying by Bootstrap

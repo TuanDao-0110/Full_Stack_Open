@@ -8,8 +8,6 @@ export default function UserLayout() {
     
     return user !== null ? (
         <div>
-            <h1>Blogs</h1>
-            {/* {showUser()} */}
             <Outlet />
         </div>
     ) : <></>

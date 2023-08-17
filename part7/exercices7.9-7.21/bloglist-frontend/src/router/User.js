@@ -1,9 +1,7 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
-
 import { useNavigate } from 'react-router-dom'
-
-
+import Table from 'react-bootstrap/Table';
 export default function User() {
     const { user } = useSelector(state => state.userInfor)
     const { blogs } = useSelector(state => state.blogReducer)
@@ -20,7 +18,7 @@ export default function User() {
             name,
             count
         }));
-        return <table>
+        return <Table striped bordered hover>
             <thead>
                 <tr>
                     <th>
@@ -36,13 +34,13 @@ export default function User() {
                     return <tr key={index} style={{ cursor: 'pointer' }} onClick={() => {
                         moveUserDetails(user.name)
                     }}>
-                        <td style={{ textAlign: 'center' }} >{user.name}</td>
-                        <td style={{ textAlign: 'center' }}>{user.count}</td>
+                        <td style={{ textAlign: 'left' }} >{user.name}</td>
+                        <td style={{ textAlign: 'left' }}>{user.count}</td>
                     </tr>
                 })}
             </tbody>
 
-        </table>
+        </Table>
     }
     const moveUserDetails = (name) => {
         let id = ''

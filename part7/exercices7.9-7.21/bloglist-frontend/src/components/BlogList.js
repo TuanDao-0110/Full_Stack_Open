@@ -7,12 +7,12 @@ import BlogForm from './BlogForm';
 import blogService from '../services/blogs';
 import { closeNote, openNote } from '../reducer/notificationReducer';
 import { setNewBlog } from '../reducer/blogReducer';
+import Table from 'react-bootstrap/Table';
 
 export default function BlogList() {
     const { blogs } = useSelector(state => state.blogReducer)
     // const { user } = useSelector(state => state.userInfor)
     const dispatch = useDispatch();
-
     const blogFormRef = useRef();
 
     const showBlogsList = () => {
@@ -21,12 +21,15 @@ export default function BlogList() {
             return temp
                 .sort((a, b) => a.likes - b.likes)
                 .map((item, index) => {
-                    return <div
-                        style={{ border: '1px solid black', width: 'fit-content', padding: "0.2rem 1rem 0 1rem", marginBottom: '1rem' }}
-                        key={index}>
-                        {/* <a href={item.id} >{item.title}</a> */}
-                        <Link to={item.id} state={item}>{item.title}</Link>
-                    </div>
+                    return <tr key={index}
+                    // style={{ border: '1px solid black', width: 'fit-content', padding: "0.2rem 1rem 0 1rem", marginBottom: '1rem' }}
+                    >
+                        <td>
+                            {/* <a href={item.id} >{item.title}</a> */}
+                            <Link to={item.id} state={item}>{item.title}</Link>
+                        </td>
+                    </tr>
+
                 })
         }
     }
@@ -56,7 +59,17 @@ export default function BlogList() {
             <Notification />
             {blogForm()}
             <div style={{ marginTop: '1rem' }}>
-                {showBlogsList()}
+                <Table striped bordered hover>
+                    <thead>
+                        <tr>
+                            <th>List</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        {showBlogsList()}
+                    </tbody>
+                </Table>
             </div>
         </div>
     )

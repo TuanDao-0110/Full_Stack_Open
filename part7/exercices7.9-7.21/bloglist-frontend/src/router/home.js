@@ -70,66 +70,9 @@ export default function Home() {
         );
     };
 
-    // const addBlog = (newBlog) => {
-    //     blogFormRef.current.toggleVisibility();
-    //     blogService.create(newBlog).then((returnedBlog) => {
-    //         dispatch(setNewBlog(returnedBlog));
-    //         dispatch(
-    //             openNote({
-    //                 type: 'success',
-    //                 content: `${newBlog.title} by ${newBlog.author}`
-    //             })
-    //         );
-    //         setTimeout(() => {
-    //             dispatch(closeNote());
-    //         }, 5000);
-    //     });
-    // };
-    // const deleteBlog = async (author, id) => {
-    //     const confirm = window.confirm(`Remove Blog Your're NOT gonna need it! By ${author}`);
-    //     try {
-    //         if (confirm) {
-    //             await blogService.deleteBlog(id);
-    //             alert(`deleted success blog by ${author}`);
-    //             // blogService.getAll().then((blogs) => setBlogs([...blogs]));
-    //             blogService.getAll().then((blogs) => dispatch(setAllBlog([...blogs])));
-    //         }
-    //     } catch (error) {
-    //         alert(error.response.data.error);
-    //     }
-    // };
-    // const blogForm = () => (
-    //     <Togglable buttonLabel="show add blog" ref={blogFormRef}>
-    //         <BlogForm user={user} createBlog={addBlog} />
-    //     </Togglable>
-    // );
-    // const updateLike = (newBlogs) => {
-    //     const temp = [...blogs];
-    //     let index = temp.findIndex((blog) => blog.id === newBlogs.id);
-    //     temp[index].likes++;
-    //     dispatch(setAllBlog([...temp]))
-    // };
-    // const sortBlogs = () => {
-    //     if (blogs.length > 0) {
-    //         let temp = [...blogs]
-    //         temp.sort((a, b) => a.likes - b.likes)
-    //         return temp
-    //             ?.map((blog) => (
-    //                 <Blog
-    //                     key={blog.id}
-    //                     blog={blog}
-    //                     deleteBlog={deleteBlog}
-    //                     updateLike={updateLike}
-    //                 />
-    //             ))
-    //     }
-    // }
     return (
         <div>
             <h1>Blogs Application</h1>
-            {/* <Notification /> */}
-            {/* {user === null ? loginForm() : blogForm()}
-            {user !== null && sortBlogs()} */}
             {
 
                 user === null && loginForm()

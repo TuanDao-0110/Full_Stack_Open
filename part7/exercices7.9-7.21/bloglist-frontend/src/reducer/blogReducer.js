@@ -10,7 +10,12 @@ const blogSlicer = createSlice({
             state.blogs = action.payload
         },
         setNewBlog(state, action) {
-            state.blogs.push(action.payload)
+            let index = state.blogs.findIndex(item => item.id === action.payload.id)
+            if (index !== -1) {
+                state.blogs[index].likes += 1
+            } else {
+                state.blogs.push(action.payload)
+            }
         },
     }
 })

@@ -8,7 +8,7 @@ const BlogForm = ({ createBlog, user }) => {
         author: '',
         url: ''
     });
-const dispatch = useDispatch()
+    const dispatch = useDispatch()
     const addBlog = (event) => {
         event.preventDefault();
         createBlog({ ...newBlog });
@@ -18,19 +18,23 @@ const dispatch = useDispatch()
             url: ''
         });
     };
+
     return (
         <>
-            {user.username} logged in{' '}
             {
-                <button
-                    onClick={() => {
-                        localStorage.removeItem('loggedBlogappUser');
-                        // setUser(null);
-                        dispatch(removeUser())
-                    }}
-                >
-                    log out
-                </button>
+                user && <>
+                    {user.username} logged in
+                    <button
+                        onClick={() => {
+                            localStorage.removeItem('loggedBlogappUser');
+                            // setUser(null);
+                            dispatch(removeUser())
+                        }}
+                    >
+                        log out
+                    </button>
+                </>
+
             }
             <h2>new blog</h2>
             <form onSubmit={addBlog}>

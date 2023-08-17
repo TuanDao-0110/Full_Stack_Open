@@ -1,6 +1,7 @@
 import { Fragment, useState } from 'react';
 import blogService from '../services/blogs';
 const Blog = ({ blog, deleteBlog, updateLike }) => {
+
     const blogStyle = {
         paddingTop: 10,
         paddingLeft: 2,
@@ -18,7 +19,7 @@ const Blog = ({ blog, deleteBlog, updateLike }) => {
             newData.likes += 1;
             try {
                 const result = await blogService.update(blog.id, newData);
-                setState({ ...result});
+                setState({ ...result });
                 updateLike(state);
             } catch (error) {
                 alert(error.message);
@@ -60,6 +61,7 @@ const Blog = ({ blog, deleteBlog, updateLike }) => {
             ) : (
                 ''
             )}
+         
         </div>
     );
 };

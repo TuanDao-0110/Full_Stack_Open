@@ -1,4 +1,5 @@
 import axios from 'axios';
+
 const baseUrl = '/api/blogs';
 let token = null;
 
@@ -50,4 +51,28 @@ const deleteBlog = (id) => {
     const request = axios.delete(`${baseUrl}/${id}`, config);
     return request.then((response) => response.data);
 };
-export default { getAll, create, update, setToken, deleteBlog };
+const getComment = (id) => {
+    let config = {
+        headers: {
+            Authorization: `${token}`,
+            'Content-Type': 'application/json'
+        }
+    };
+
+    const request = axios.get(`${baseUrl}/${id}/comment`, config);
+    return request.then((response) => response);
+}
+
+const addComment = (id, comment) => {
+    return axios({
+        method: 'post',
+        url: `/api/blogs/${id}/comment`,
+        data: { comment: comment },
+        headers: {
+            Authorization: `${token}`,
+            'Content-Type': 'application/json'
+        }
+    }).then(res => res).catch(err => err)
+}
+
+export default { getAll, create, update, setToken, deleteBlog, getComment, addComment };

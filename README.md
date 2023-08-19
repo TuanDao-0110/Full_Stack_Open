@@ -48,3 +48,7 @@ https://phonebook-m3p7.onrender.com/
 2. [x] Custome hooks
 3. [x] Redux
 4. [x] Stying by Bootstrap
+
+## Part-8:
+
+1. [x] GraghQL-server 

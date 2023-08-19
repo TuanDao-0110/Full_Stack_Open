@@ -1,5 +1,6 @@
 const { ApolloServer } = require('@apollo/server')
 const { startStandaloneServer } = require('@apollo/server/standalone')
+const { v1: uuid } = require('uuid')
 
 let persons = [
     {
@@ -25,17 +26,25 @@ let persons = [
 ]
 // with 1st: schema, 2nd:query
 const typeDefs = `
-type Address {
-    street : String!
+type Address { 
+    street:String!
     city : String!
+
 }
     type Person {
         phone: String
-        address:Address!
      name: String!
+     address: Address!
         id: ID!
     }
-
+type Mutation {
+  addPerson(
+    name: String!
+    phone: String
+    street: String!
+    city: String!
+  ): Person
+}
 type Query {
   personCount: Int!
   allPersons: [Person!]!
@@ -51,6 +60,7 @@ const resolvers = {
         findPerson: (root, args) =>
             persons.find(p => p.name === args.name)
     },
+
     Person: {
         address: (root) => {
             return {
@@ -58,6 +68,14 @@ const resolvers = {
                 city: root.city
             }
         },
+    },
+    // root is from main, args is from parameter
+    Mutation: {
+        addPerson: (root, args) => {
+            const person = { ...args, id: uuid() }
+            persons = persons.concat(person)
+            return person
+        }
     }
 
 }

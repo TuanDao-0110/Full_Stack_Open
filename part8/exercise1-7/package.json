@@ -1,0 +1,14 @@
+{
+  "name": "exercise1-7",
+  "version": "1.0.0",
+  "description": "phonebook",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "tuan",
+  "license": "ISC",
+  "dependencies": {
+    "apollo": "^2.34.0"
+  }
+}

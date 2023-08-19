@@ -1,5 +1,6 @@
 const { ApolloServer } = require('@apollo/server')
 const { startStandaloneServer } = require('@apollo/server/standalone')
+const { v1: uuid } = require('uuid')
 
 let authors = [
     {
@@ -113,12 +114,21 @@ type Author {
 type listAuthor {
     name: String!
     bookCount:Int!
+    born:Int
 }
   type Query {
     bookCount(name: String): Int!
     authorCount: Int!
-    allBooks: [Book!]!
-    allAuthor: [listAuthor!]!
+    allBooks(author: String,genre: String): [Book!]!
+    allAuthors: [listAuthor!]!
+  }
+  type editAuthor { 
+    name:String 
+    born: String
+  }
+  type Mutation {
+    addBook(title: String!, author: String!, published: Int!, genres: [String!]!): [Book!]!
+    editAuthor(name: String!,setBornTo: Int!): editAuthor
   }
 `
 
@@ -132,19 +142,43 @@ const resolvers = {
         authorCount: (root, args) => {
             return authors.length
         },
-        allBooks: () => {
-            return books
+        allBooks: (root, args) => {
+            if (!args.author && !args.genre) return books
+            if (args.author && !args.genre) return books.filter(e => e.author === args.author)
+            if (args.genre && !args.author) return books.filter(e => e.genres.includes(args.genre))
+            if (args.genre && args.author) return books.filter(e => e.genres.includes(args.genre)).filter(e => e.author === args.author)
+
         },
-        allAuthor: (root, args) => {
-            let listAuthor = []
-            authors.forEach(e => {
-                let bookCount = (e.name, books.filter(e => e.author === args.name).length)
-                listAuthor.push({ name: e.name, bookCount })
-            })
-            return listAuthor
+        allAuthors: () => {
+            return authors.map(author => ({
+                name: author.name,
+                bookCount: books.filter(book => book.author === author.name).length,
+                born: author.born
+            }));
+        }
+    },
+    Mutation: {
+        addBook: (root, args) => {
+            books.push({ ...args, id: uuid() });
+
+            // Check if the author already exists
+            let author = authors.find(e => e.name === args.author);
+
+            if (!author) {
+                author = { name: args.author, id: uuid() };
+                authors.push(author);
+            }
+
+            return books;
+        },
+        editAuthor: (root, args) => {
+            let editAuthor = authors.find(e => e.name === args.name)
+            if (!editAuthor) return editAuthor
+            editAuthor.born = args.setBornTo
+            return editAuthor
+
         }
     }
-
 }
 
 const server = new ApolloServer({

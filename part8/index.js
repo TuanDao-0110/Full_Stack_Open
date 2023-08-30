@@ -115,7 +115,13 @@ const resolvers = {
         editNumber: (root, args) => {
             const person = persons.find(p => p.name === args.name)
             if (!person) {
-                return null
+                // return null
+                throw new GraphQLError('person can not find', {
+                    extensions: {
+                        code: 'BAD_USER_INPUT',
+                        invalidArgs: args.name
+                    }
+                })
             }
 
             const updatedPerson = { ...person, phone: args.phone }

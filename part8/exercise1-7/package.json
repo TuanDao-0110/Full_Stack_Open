@@ -11,5 +11,8 @@
   "dependencies": {
     "apollo": "^2.34.0",
     "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "wait-on": "^7.0.1"
   }
 }

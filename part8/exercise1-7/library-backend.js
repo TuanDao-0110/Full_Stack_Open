@@ -160,15 +160,12 @@ const resolvers = {
     Mutation: {
         addBook: (root, args) => {
             books.push({ ...args, id: uuid() });
-
             // Check if the author already exists
             let author = authors.find(e => e.name === args.author);
-
             if (!author) {
                 author = { name: args.author, id: uuid() };
                 authors.push(author);
             }
-
             return books;
         },
         editAuthor: (root, args) => {

@@ -1,4 +1,4 @@
-import { gql} from '@apollo/client'
+import { gql } from '@apollo/client'
 
 
 export const CREATE_PERSON = gql`
@@ -55,4 +55,12 @@ export const EDIT_NUMBER = gql`
       id
     }
   }
+`
+
+
+export const CREATE_USER = gql`
+mutation createUser(name: String){
+  username
+  id
+}
 `

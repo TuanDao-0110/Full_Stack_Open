@@ -30,7 +30,6 @@ export default function Authors() {
             <h3> click user to change year of birth</h3>
             <table >
                 <thead>
-
                     <tr>
                         <th></th>
                         <th>born</th>

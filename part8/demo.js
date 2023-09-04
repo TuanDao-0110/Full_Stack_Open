@@ -121,6 +121,7 @@ const resolvers = {
             if (!args.phone) {
                 return Person.find({})
             }
+
             return Person.find({ phone: { $exists: args.phone === 'YES' } })
         },
         findPerson: async (root, args) => Person.findOne({ name: args.name }),
@@ -212,16 +213,18 @@ const resolvers = {
             return { value: jwt.sign(userForToken, process.env.JWT_SECRET) }
         },
         addAsFriend: async (root, args, { currentUser }) => {
-            const nonFriendAlready = (person) =>
-                !currentUser.friends.map(f => f._id.toString()).includes(person._id.toString())
-
+            // check that do we have current user or not
             if (!currentUser) {
                 throw new GraphQLError('wrong credentials', {
                     extensions: { code: 'BAD_USER_INPUT' }
                 })
             }
-
+            // check user that have person is friend already or not
+            const nonFriendAlready = (person) =>
+                !currentUser.friends.map(f => f._id.toString()).includes(person._id.toString())
+            // now we find a person need to be added as friend,
             const person = await Person.findOne({ name: args.name })
+            // check that person belong to list friend already or not
             if (nonFriendAlready(person)) {
                 currentUser.friends = currentUser.friends.concat(person)
             }
@@ -246,8 +249,10 @@ startStandaloneServer(server, {
             const decodedToken = jwt.verify(
                 auth.substring(7), process.env.JWT_SECRET
             )
+
             const currentUser = await User
                 .findById(decodedToken.id).populate('friends')
+
             return { currentUser }
         }
     },

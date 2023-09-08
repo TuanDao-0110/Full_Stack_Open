@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const { schema } = require('./Author');
+
 const schema = new mongoose.Schema({
     title: {
         type: String,
@@ -10,13 +10,12 @@ const schema = new mongoose.Schema({
         type: Number,
         required: true,
     },
-    // author: {
-    //     type: mongoose.Schema.Types.ObjectId,
-    //     ref: 'Author'
-    // },
     author: {
-        type: String,
-        required: true
+        // type: String,
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Author',
+        required:true
+        // required: true
     },
     genres: {
         type: [String],

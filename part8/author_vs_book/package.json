@@ -2,9 +2,10 @@
   "name": "exercise1-7",
   "version": "1.0.0",
   "description": "phonebook",
-  "main": "index.js",
+  "main": "library-backend.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "node": "nodemon library-backend.js"
   },
   "author": "tuan",
   "license": "ISC",

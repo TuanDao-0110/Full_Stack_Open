@@ -1,14 +1,17 @@
-import { useLazyQuery } from '@apollo/client'
+import { useLazyQuery, useApolloClient } from '@apollo/client'
 import Persons from './components/Persons'
 import PersonForm from './components/PersonForm'
 import { useEffect, useState } from 'react'
 import { ALL_PERSONS } from './query'
 import NotifyMsg from './components/NotifyMsg'
 import PhoneForm from './components/PhoneForm'
-
+import LoginForm from './components/LoginForm'
 
 const App = () => {
   const [errorMsg, setErrorMsg] = useState(null)
+  const [token, setToken] = useState(null)
+  const client = useApolloClient()
+
   const notify = (msg) => {
     setErrorMsg(msg)
     setTimeout(() => {
@@ -25,7 +28,22 @@ const App = () => {
         result()
       }
     }, 1000);
-  }, [])
+  }, [called,result])
+
+  const logout = () => {
+    setToken(null)
+    localStorage.clear()
+    client.resetStore()
+  }
+
+  if (!token) {
+    return (
+      <>
+        <NotifyMsg msg={errorMsg} />
+        <LoginForm setToken={setToken} setError={notify} />
+      </>
+    )
+  }
   if (!called && !loading) {
     return <div>starting fetching data ...</div>
   }
@@ -37,6 +55,7 @@ const App = () => {
       return (
         <div>
           <NotifyMsg msg={errorMsg} />
+          <button onClick={logout}>logout</button>
           <Persons persons={data.allPersons} />
           <PersonForm notify={notify} />
           <PhoneForm notify={notify} />

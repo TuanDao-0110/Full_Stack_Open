@@ -230,6 +230,9 @@ const resolvers = {
                     },
                 });
             }
+        },
+        me: (root, args, context) => {
+            return context.currentUser
         }
     },
     Mutation: {
@@ -244,11 +247,11 @@ const resolvers = {
 
             // If the author doesn't exist, create a new one
             if (!author) {
-                author = new Author({ name: args.author });
                 try {
+                    author = new Author({ name: args.author });
                     await author.save();
                 } catch (error) {
-                    throw new GraphQLError('Adding author failed', {
+                    throw new GraphQLError(error.message, {
                         extensions: {
                             code: 'BAD_USER_INPUT',
                             invalidArgs: args.author,

@@ -13,13 +13,27 @@ const PersonForm = ({ notify }) => {
 
     const [createPerson] = useMutation(CREATE_PERSON, {
         // this is help to call all_person everytime this createPerson is called, we can add more query
-        refetchQueries: [{ query: ALL_PERSONS }],
-        onError: (err) => {
-            const messages = err.graphQLErrors[0].message
+        // refetchQueries: [{ query: ALL_PERSONS }],
+        // onError: (err) => {
+        //     const messages = err.graphQLErrors[0].message
+        //     notify(messages)
+        // }
+        onError: (error) => {
+            const errors = error.graphQLErrors[0].extensions.error.errors
+            const messages = Object.values(errors).map(e => e.message).join('\n')
             notify(messages)
-        }
+        },
+        // this can be use as replacement for refetchQueries
+        update: (cache, response) => {
+            cache.updateQuery({ query: ALL_PERSONS }, ({ allPersons }) => {
+                return {
+                    allPersons: allPersons.concat(response.data.addPerson),
+                }
+            })
+        },
+    
     })
-    const submit = (event) => {
+    const submit = async (event) => {
         event.preventDefault()
         createPerson({ variables: { name, phone, street, city } })
         setName('')

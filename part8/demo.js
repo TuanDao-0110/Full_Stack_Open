@@ -155,7 +155,7 @@ const resolvers = {
                 currentUser.friends = currentUser.friends.concat(person)
                 await currentUser.save()
             } catch (error) {
-                throw new GraphQLError('Saving user failed', {
+                throw new GraphQLError(`Saving user failed ${error.message} `, {
                     extensions: {
                         code: 'BAD_USER_INPUT',
                         invalidArgs: args.name,
@@ -172,7 +172,7 @@ const resolvers = {
             try {
                 await person.save()
             } catch (error) {
-                throw new GraphQLError('Editing number failed', {
+                throw new GraphQLError(`Editing number failed ${error.message}`, {
                     extensions: {
                         code: 'BAD_USER_INPUT',
                         invalidArgs: args.name,

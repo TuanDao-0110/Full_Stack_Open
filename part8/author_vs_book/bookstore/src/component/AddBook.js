@@ -2,7 +2,7 @@ import { useMutation } from '@apollo/client'
 import React, { useEffect, useState } from 'react'
 import { ADD_NEW_BOOK, GET_ALL_BOOKS } from '../query'
 import { useNavigate } from 'react-router-dom'
-export default function AddBook({ token }) {
+export default function AddBook({ token,books }) {
     const [title, setTitle] = useState('')
     const [author, setAuthor] = useState('')
     const [published, setPublished] = useState(0)
@@ -19,7 +19,9 @@ export default function AddBook({ token }) {
             const msg = err.graphQLErrors[0].message
             setErrMsg(msg)
         },
-        refetchQueries: [{ query: GET_ALL_BOOKS }]
+        refetchQueries: [
+            books.refetch()
+        ]
     })
 
     const notify = () => {

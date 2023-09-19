@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import {  useQuery } from '@apollo/client';
-import {  GET_ALL_AUTHOR } from '../query';
+import { useQuery } from '@apollo/client';
+import { GET_ALL_AUTHOR } from '../query';
 import EditAuthor from './EditAuthor';
 
 export default function Authors() {
@@ -18,8 +18,6 @@ export default function Authors() {
             <td>{bookCount}</td>
         </tr>
     }
-
-
     if (result.loading) {
         return <>loading...</>
     }

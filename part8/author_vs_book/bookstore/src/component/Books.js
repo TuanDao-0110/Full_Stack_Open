@@ -2,16 +2,13 @@ import React from 'react'
 
 
 export default function Books({ result, activeGenre, setActiveGenre }) {
-
-    // const result = useQuery(GET_ALL_BOOKS, {
-    //     variables: { genre: activeGenre }
-    // })
+    console.log(result)
     const Book = ({ book }) => {
         const { author,
             published,
             title, genres } = book
         return <tr >
-            <td style={{border:'1px solid black'}}>{title}</td>
+            <td style={{ border: '1px solid black' }}>{title}</td>
             <td style={{ border: '1px solid black', alignItems: 'center' }}>{author.name}</td>
             <td style={{ border: '1px solid black', alignItems: 'center' }}>{published}</td>
             <td style={{ border: '1px solid black', alignItems: 'center' }}>{genres[0]}</td>
@@ -33,11 +30,10 @@ export default function Books({ result, activeGenre, setActiveGenre }) {
     if (result.loading) return <>loading...</>
     return (
         <div
-            style={{ justifyContent: 'center',paddingBottom:'5rem'}}
+            style={{ justifyContent: 'center', paddingBottom: '5rem' }}
         >
             <h1>Books</h1>
             <h3 style={{
-
             }}>in genre ---
                 <span style={{
                     fontWeight: 'bold',
@@ -68,7 +64,7 @@ export default function Books({ result, activeGenre, setActiveGenre }) {
                     setActiveGenre('')
                 }}>all</button>
                 {
-                    GenresType(result.data.allBooks)
+                    result.data && GenresType(result.data.allBooks)
                 }
             </div>
         </div>

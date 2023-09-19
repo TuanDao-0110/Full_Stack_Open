@@ -21,7 +21,6 @@ function App() {
     books.refetch({
       variables: { genre: activeGenre },
     })
-    console.log('refetching books')
   }, [token, books,activeGenre])
 
   const currentUser = useQuery(ME)

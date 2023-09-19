@@ -2,7 +2,6 @@ import React from 'react'
 
 
 export default function Books({ result, activeGenre, setActiveGenre }) {
-    console.log(result)
     const Book = ({ book }) => {
         const { author,
             published,

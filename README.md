@@ -52,3 +52,7 @@ https://phonebook-m3p7.onrender.com/
 ## Part-8:
 
 1. [x] GraghQL-server 
+2. [x] React vs GraphQL
+3. [x] Database and user administration
+4. [x] Login and updating the cache
+5. [x] Fragments and subscriptions

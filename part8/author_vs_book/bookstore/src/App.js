@@ -20,8 +20,9 @@ function App() {
   useEffect(() => {
     books.refetch({
       variables: { genre: activeGenre },
+      skip: activeGenre
     })
-  }, [token, books,activeGenre])
+  }, [token, books, activeGenre])
 
   const currentUser = useQuery(ME)
   return (
@@ -30,7 +31,7 @@ function App() {
         <Route index element={<Welcome />} />
         <Route path='authors' element={<Authors />} />
         <Route path='books' element={<Books result={books} activeGenre={activeGenre} setActiveGenre={setActiveGenre} />} />
-        <Route path='addbook' element={<AddBook token={token} books={books}/>} /> :
+        <Route path='addbook' element={<AddBook token={token} books={books} />} /> :
         <Route path='login' element={<LoginForm setError={setErrorMsg} setToken={setToken} token={token} />} />
         <Route path='recommend' element={<Recommend currentUser={currentUser} books={books} />} />
       </Route>

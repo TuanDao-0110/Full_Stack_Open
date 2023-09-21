@@ -1,5 +1,4 @@
 const { ApolloServer } = require('@apollo/server')
-const { startStandaloneServer } = require('@apollo/server/standalone')
 const jwt = require('jsonwebtoken')
 // import express: 
 const { expressMiddleware } = require('@apollo/server/express4')
@@ -14,6 +13,11 @@ const User = require('./demoModel/User')
 const typeDefs = require('./schema')
 const resolvers = require('./resolver')
 
+
+// add websocket 
+const { WebSocketServer } = require('ws')
+const { useServer } = require('graphql-ws/lib/use/ws')
+
 require('dotenv').config()
 
 const MONGODB_URI = process.env.MONGODB_URI
@@ -27,14 +31,33 @@ mongoose.connect(MONGODB_URI)
     .catch((error) => {
         console.log('error connection to MongoDB:', error.message)
     })
+// if need to debug 
+mongoose.set('debug', true);
+
 // setup is now within a function
 const start = async () => {
     const app = express()
     const httpServer = http.createServer(app)
+    // add websocket server
+    const wsServer = new WebSocketServer({
+        server: httpServer,
+        path: '/',
+    })
+    // schema vs server cleanup:
+    const schema = makeExecutableSchema({ typeDefs, resolvers })
+    const serverCleanup = useServer({ schema }, wsServer)
     // set up server configuration
     const server = new ApolloServer({
-        schema: makeExecutableSchema({ typeDefs, resolvers }),
-        plugins: [ApolloServerPluginDrainHttpServer({ httpServer })]
+        schema,
+        plugins: [ApolloServerPluginDrainHttpServer({ httpServer }), {
+            async serverWillStart() {
+                return {
+                    async drainServer() {
+                        await serverCleanup.dispose()
+                    }
+                }
+            }
+        }],
     })
     // run graphQL server
     await server.start()

@@ -1,16 +1,22 @@
 const User = require('./demoModel/User')
 const Person = require('./demoModel/Person')
+const jwt = require('jsonwebtoken')
 const { GraphQLError } = require('graphql')
+// in case of subscription, the communication between client and server happens with WebSockets
+const { PubSub } = require("graphql-subscriptions")
+const pubsub = new PubSub()
 
 const resolvers = {
     Query: {
         personCount: async () => Person.collection.countDocuments(),
         allPersons: async (root, args, context) => {
+            console.log('Person.find')
             if (!args.phone) {
                 return Person.find({})
+                .populate('friendOf')
             }
-
             return Person.find({ phone: { $exists: args.phone === 'YES' } })
+            .populate('friendOf')
         },
         findPerson: async (root, args) => Person.findOne({ name: args.name }),
         me: (root, args, context) => {
@@ -24,12 +30,15 @@ const resolvers = {
                 city,
             }
         },
+        friendOf:async (root) => {
+            const friends = await User.find({ friends: { $in: [root._id] } })
+            return friends
+        }
     },
     Mutation: {
         addPerson: async (root, args, context) => {
             const person = new Person({ ...args })
             const currentUser = context.currentUser
-
             if (!currentUser) {
                 throw new GraphQLError('not authenticated', {
                     extensions: {
@@ -51,7 +60,7 @@ const resolvers = {
                     }
                 })
             }
-
+            pubsub.publish('PERSON_ADDED', { personAdded: person })
             return person
         },
         editNumber: async (root, args) => {
@@ -118,10 +127,14 @@ const resolvers = {
             }
 
             await currentUser.save()
-
             return currentUser
         },
-    }
+    },
+    Subscription: {
+        personAdded: {
+            subscribe: () => pubsub.asyncIterator('PERSON_ADDED')
+        },
+    },
 }
 
 

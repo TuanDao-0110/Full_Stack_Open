@@ -1,11 +1,14 @@
-import { useLazyQuery, useApolloClient } from '@apollo/client'
+import { useLazyQuery, useApolloClient, useQuery, useMutation, useSubscription } from '@apollo/client'
 import Persons from './components/Persons'
 import PersonForm from './components/PersonForm'
 import { useEffect, useState } from 'react'
-import { ALL_PERSONS } from './query'
+import { ALL_PERSONS, PERSON_ADDED } from './query'
 import NotifyMsg from './components/NotifyMsg'
 import PhoneForm from './components/PhoneForm'
 import LoginForm from './components/LoginForm'
+import { updateCache } from './helper'
+
+
 
 const App = () => {
   const [errorMsg, setErrorMsg] = useState(null)
@@ -28,13 +31,29 @@ const App = () => {
         result()
       }
     }, 1000);
-  }, [called,result])
+  }, [called, result])
 
   const logout = () => {
     setToken(null)
     localStorage.clear()
     client.resetStore()
   }
+  // subscrtiop to get webpack connection 
+  useSubscription(PERSON_ADDED, {
+    onData: ({ data }) => {
+      const addedPerson = data.data.personAdded
+      notify(`${addedPerson.name} addded`)
+      // client.cache.updateQuery({ query: ALL_PERSONS },
+      //     ({ allPersons }) => {
+      //     return {
+      //       allPersons: allPersons.concat(addedPerson),
+      //     }
+      //   }
+      //   )
+      updateCache(client.cache, { query: ALL_PERSONS }, addedPerson)
+    }
+  })
+  // 1. create function to make sure that the person is not added twice
 
   if (!token) {
     return (

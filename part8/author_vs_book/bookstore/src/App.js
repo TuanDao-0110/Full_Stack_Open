@@ -8,21 +8,23 @@ import Books from './component/Books';
 import AddBook from './component/AddBook';
 import LoginForm from './component/LoginForm';
 import Recommend from './component/Recommend';
-import { useQuery } from '@apollo/client'
-import { GET_ALL_BOOKS, ME } from './query';
+import { useQuery, useSubscription, useApolloClient} from '@apollo/client'
+import { ADD_NEW_BOOK, GET_ALL_BOOKS, ME } from './query';
 function App() {
   const [token, setToken] = useState(null)
   const [errMsg, setErrorMsg] = useState(null)
   const [activeGenre, setActiveGenre] = useState('')
+  const client = useApolloClient()
   const books = useQuery(GET_ALL_BOOKS, {
     variables: { genre: activeGenre },
   })
-  useEffect(() => {
-    books.refetch({
-      variables: { genre: activeGenre },
-      skip: activeGenre
-    })
-  }, [token, books, activeGenre])
+  useSubscription()
+  // useEffect(() => {
+  //   books.refetch({
+  //     variables: { genre: activeGenre },
+  //     skip: activeGenre
+  //   })
+  // }, [token, books, activeGenre])
 
   const currentUser = useQuery(ME)
   return (

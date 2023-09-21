@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useMutation } from '@apollo/client'
 import { ALL_PERSONS, CREATE_PERSON } from '../query'
+import { updateCache } from '../helper'
 
 
 
@@ -25,13 +26,14 @@ const PersonForm = ({ notify }) => {
         },
         // this can be use as replacement for refetchQueries
         update: (cache, response) => {
-            cache.updateQuery({ query: ALL_PERSONS }, ({ allPersons }) => {
-                return {
-                    allPersons: allPersons.concat(response.data.addPerson),
-                }
-            })
+            // cache.updateQuery({ query: ALL_PERSONS }, ({ allPersons }) => {
+            //     return {
+            //         allPersons: allPersons.concat(response.data.addPerson),
+            //     }
+            // })
+            updateCache(cache, { query: ALL_PERSONS }, response.data.addPerson)
         },
-    
+
     })
     const submit = async (event) => {
         event.preventDefault()

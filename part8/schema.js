@@ -11,23 +11,7 @@ const typeDefs = `
 
   type Address {
     street: String!
-    city: String! 
-  }
-
-  enum YesNo {
-    YES
-    NO
-  }
-
-  type Subscription {
-  personAdded: Person!
-}    
-  
-  type Query {
-    personCount: Int!
-    allPersons(phone: YesNo): [Person!]!
-    findPerson(name: String!): Person
-    me: User
+    city: String!
   }
 
   type Person {
@@ -35,12 +19,19 @@ const typeDefs = `
     phone: String
     address: Address!
     id: ID!
+    friendOf : [User!]!
+  }
+
+  enum YesNo {
+    YES
+    NO
   }
 
   type Query {
     personCount: Int!
-    allPersons: [Person!]!
+    allPersons(phone: YesNo): [Person!]!
     findPerson(name: String!): Person
+    me: User
   }
 
   type Mutation {
@@ -50,25 +41,14 @@ const typeDefs = `
       street: String!
       city: String!
     ): Person
+    editNumber(name: String!, phone: String!): Person
+    createUser(username: String!): User
+    login(username: String!, password: String!): Token
+    addAsFriend(name: String!): User
+  }
 
-    editNumber(
-      name: String!
-      phone: String!
-    ): Person
-
-    createUser(
-      username: String!
-    ): User
-    
-    login(
-      username: String!
-      password: String!
-    ): Token  
-    
-    addAsFriend(
-      name: String!
-    ): User
+  type Subscription {
+    personAdded: Person!
   }
 `
 module.exports = typeDefs
-

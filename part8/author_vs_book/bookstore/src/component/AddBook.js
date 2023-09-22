@@ -21,7 +21,10 @@ export default function AddBook({ token,books }) {
         },
         refetchQueries: [
             books.refetch()
-        ]
+        ],
+        onCompleted : (data)=> {
+            setErrMsg('success add new book')
+        }
     })
 
     const notify = () => {

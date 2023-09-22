@@ -2,7 +2,14 @@ import React from 'react'
 import { Link, Outlet, useLocation } from 'react-router-dom'
 import { useApolloClient } from '@apollo/client'
 
-export default function MainLayout({ token, setToken }) {
+export default function MainLayout({ token, setToken ,setErrorMsg,errMsg}) {
+    const notify = () => {
+        setTimeout(() => {
+            setErrorMsg(null)
+        }, 5000);
+        return <div style={{ color: 'red' }}>{errMsg}</div>
+    }
+
     const location = useLocation()
     const client = useApolloClient()
     const logout = () => {
@@ -12,6 +19,7 @@ export default function MainLayout({ token, setToken }) {
     }
     return (
         <div style={{ paddingTop: '5rem', paddingLeft: '1rem' }}>
+            {errMsg !== null && notify()}
             <nav>
                 <button style={{ border: `${location.pathname === '/authors' ? '1px solid red' : ''}` }}>
                     <Link

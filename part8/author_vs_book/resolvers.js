@@ -98,11 +98,17 @@ const resolvers = {
             try {
                 const authors = await Author.find()
                 const books = await Book.find()
+                .populate('author')
                 return authors.map(author => ({
                     name: author.name,
                     bookCount: books.filter(book => book.author.toString() === author._id.toString()).length,
                     born: author.born
                 }));
+                // return authors.map(author => ({
+                //     name: author.name,
+                //     bookCount: books.filter(book => book.author.toString() === author._id.toString()).length,
+                //     born: author.born
+                // }));
             } catch (error) {
                 throw new GraphQLError('Error fetchin author', {
                     extensions: {

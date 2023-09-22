@@ -24,6 +24,8 @@ query Query($genre: String) {
   allBooks(genre: $genre) {
     author {
       name
+      id
+      name
     }
     genres
     id
@@ -80,7 +82,7 @@ mutation Mutation($username: String!, $password: String!) {
 export const BOOK_ADDED = gql`
 subscription { 
   bookAdded { 
-${BOOK_DETAILS}
+...BookDetails
   }
 }
 ${BOOK_DETAILS}

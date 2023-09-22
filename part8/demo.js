@@ -32,7 +32,7 @@ mongoose.connect(MONGODB_URI)
         console.log('error connection to MongoDB:', error.message)
     })
 // if need to debug 
-mongoose.set('debug', true);
+// mongoose.set('debug', true);
 
 // setup is now within a function
 const start = async () => {

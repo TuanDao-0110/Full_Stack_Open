@@ -4,7 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "instalAll" : "npm i",
+    "runBookStoreBackEnd":"cd author_vs_book && npm run node",
+    "runBookStoreFontend":"cd author_vs_book/bookstore && npm run start",
+    "runAllBookStoreApp" : "npm run runBookStoreBackEnd & npm run runBookStoreFontend"
   },
   "author": "tuna",
   "license": "ISC",

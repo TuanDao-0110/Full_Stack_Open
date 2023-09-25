@@ -56,3 +56,13 @@ https://phonebook-m3p7.onrender.com/
 3. [x] Database and user administration
 4. [x] Login and updating the cache
 5. [x] Fragments and subscriptions
+
+## Part-9: 
+
+1. [x] Background and introduction
+2. [x] First steps with Typescript
+3. [x] Typing an Express application
+4. [x] React with types
+5. [x] Grande finale: Patientor
+6. [x] Legacy patientor (the old material)
+

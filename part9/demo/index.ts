@@ -1,6 +1,7 @@
 import express from "express";
-import { calculator } from "./multiplier";
+import { Operation, calculator } from "./multiplier";
 const app = express();
+app.use(express.json());
 
 app.get("/ping", (_req, res) => {
   res.send("pong");
@@ -14,9 +15,10 @@ app.post("/calculate", (req, res) => {
   }
 
   // more validations here...
+  const operation = op as Operation;
 
   // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-  const result = calculator(Number(value1), Number(value2), op);
+  const result = calculator(Number(value1), Number(value2), operation);
   return res.send({ result });
 });
 

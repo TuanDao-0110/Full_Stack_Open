@@ -1,4 +1,6 @@
-interface Result {
+import { isNotNumber } from "./utils/helpers";
+
+export interface Result {
   periodLength: number;
   trainingDays: number;
   success: boolean;
@@ -8,12 +10,13 @@ interface Result {
   average: number;
 }
 
-const calculateExercises = (props: Array<string | number>, target: number): Result => {
-  const data = props.slice(2, props.length).map((item, index) => {
+export const calculateExercises = (props: Array<string | number>, target: number): Result => {
+  const data = props.map((item, _index) => {
     return Number(item);
   });
-  if (data.length < 7) {
-    throw new Error("wrong input");
+
+  if (data.length < 7 || !isNotNumber(Number(target))) {
+    throw new Error("malformatted parameters");
   }
 
   const periodLength = data.length;
@@ -44,4 +47,4 @@ const calculateExercises = (props: Array<string | number>, target: number): Resu
 
 // console.log(calculateExercises([3, 0, 2, 4.5, 0, 3, 1], 2));
 
-console.log(calculateExercises(process.argv, 2));
+

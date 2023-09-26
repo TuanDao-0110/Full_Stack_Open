@@ -2,12 +2,13 @@
   "name": "exercises",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "calculateBmi": "ts-node bmiCalculator.ts",
     "calculateExercises": "ts-node exerciseCalculator.ts",
-    "dev" : "ts-node-dev index.ts"
+    "dev" : "ts-node-dev index.ts",
+    "lint": "eslint --ext .ts ."
   },
   "keywords": [],
   "author": "",
@@ -19,6 +20,9 @@
     "@types/mongoose": "^5.11.97",
     "@types/node": "^20.6.5",
     "@types/react": "^18.2.22",
+    "@typescript-eslint/eslint-plugin": "^6.7.3",
+    "@typescript-eslint/parser": "^6.7.3",
+    "eslint": "^8.50.0",
     "ts-node": "^10.9.1",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.2.2"

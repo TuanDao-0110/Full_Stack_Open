@@ -17,6 +17,10 @@ app.get("/bmi", async (_req, res) => {
     res.json({ error: "malformatted parameters" });
   }
 });
+
+app.post('/calculate', async (_req, res) => {
+    
+})
 const PORT = 3002;
 
 app.listen(PORT, () => {

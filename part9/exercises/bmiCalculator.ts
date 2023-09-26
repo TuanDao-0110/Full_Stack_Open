@@ -1,6 +1,6 @@
 import { isNotNumber } from "./utils/helpers";
 
-function calculateBmi(heightCm: string, weightKg: string): string {
+export function calculateBmi(heightCm: string |number, weightKg: string |number): string {
   if (isNotNumber(heightCm) || isNotNumber(weightKg)) {
     throw new Error("wrong type of height or weight");
   }
@@ -17,11 +17,11 @@ function calculateBmi(heightCm: string, weightKg: string): string {
   }
 }
 
-try {
-  const result = calculateBmi(process.argv[2], process.argv[3]);
-  console.log(result);
-} catch (error: unknown) {
-  if (error instanceof Error) {
-    console.log(error.message);
-  }
-}
+// try {
+//   const result = calculateBmi(process.argv[2], process.argv[3]);
+//   console.log(result);
+// } catch (error: unknown) {
+//   if (error instanceof Error) {
+//     console.log(error.message);
+//   }
+// }

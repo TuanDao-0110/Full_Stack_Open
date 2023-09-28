@@ -1,6 +1,9 @@
-import { Diagnosis, Patient } from "./types";
-
-const dataDianosis = [
+export enum Gender {
+  male = "male",
+  female = "female",
+  other = "other",
+}
+export const dataDianosis = [
   {
     code: "M24.2",
     name: "Disorder of ligament",
@@ -75,13 +78,13 @@ const dataDianosis = [
     latin: "Alia retinopathia proliferativa",
   },
 ];
-const dataPatient = [
+export const dataPatient = [
   {
     id: "d2773336-f723-11e9-8f0b-362b9e155667",
     name: "John McClane",
     dateOfBirth: "1986-07-09",
     ssn: "090786-122X",
-    gender: "male",
+    gender: Gender.male,
     occupation: "New york city cop",
   },
   {
@@ -89,7 +92,7 @@ const dataPatient = [
     name: "Martin Riggs",
     dateOfBirth: "1979-01-30",
     ssn: "300179-77A",
-    gender: "male",
+    gender: Gender.male,
     occupation: "Cop",
   },
   {
@@ -97,7 +100,7 @@ const dataPatient = [
     name: "Hans Gruber",
     dateOfBirth: "1970-04-25",
     ssn: "250470-555L",
-    gender: "other",
+    gender: Gender.other,
     occupation: "Technician",
   },
   {
@@ -105,7 +108,7 @@ const dataPatient = [
     name: "Dana Scully",
     dateOfBirth: "1974-01-05",
     ssn: "050174-432N",
-    gender: "female",
+    gender: Gender.female,
     occupation: "Forensic Pathologist",
   },
   {
@@ -113,16 +116,7 @@ const dataPatient = [
     name: "Matti Luukkainen",
     dateOfBirth: "1971-04-09",
     ssn: "090471-8890",
-    gender: "male",
+    gender: Gender.male,
     occupation: "Digital evangelist",
   },
 ];
-
-
-export const getDianoses = (): Diagnosis[] => {
-  return dataDianosis;
-};
-
-export const getPatients = (): Patient[] => {
-    return dataPatient;
-}

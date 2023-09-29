@@ -21,7 +21,7 @@ export const calculateExercises = (props: Array<string | number>, target: number
 
   const periodLength = data.length;
   const trainingDays = data.filter((e) => e !== 0).length;
-  const success = data.includes(0) ? false : true;
+  const success = data?.includes(0) ? false : true;
   const average = data.reduce((accumulator, currentValue) => accumulator + currentValue, 0) / 7;
   let rating = 1;
   let ratingDescription = "not too bad but could be better";

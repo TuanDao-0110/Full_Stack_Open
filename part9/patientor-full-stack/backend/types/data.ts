@@ -86,6 +86,8 @@ export const dataPatient = [
     ssn: "090786-122X",
     gender: Gender.male,
     occupation: "New york city cop",
+    entries:[]
+
   },
   {
     id: "d2773598-f723-11e9-8f0b-362b9e155667",
@@ -94,6 +96,7 @@ export const dataPatient = [
     ssn: "300179-77A",
     gender: Gender.male,
     occupation: "Cop",
+    entries:[]
   },
   {
     id: "d27736ec-f723-11e9-8f0b-362b9e155667",
@@ -102,6 +105,7 @@ export const dataPatient = [
     ssn: "250470-555L",
     gender: Gender.other,
     occupation: "Technician",
+    entries:[]
   },
   {
     id: "d2773822-f723-11e9-8f0b-362b9e155667",
@@ -118,5 +122,6 @@ export const dataPatient = [
     ssn: "090471-8890",
     gender: Gender.male,
     occupation: "Digital evangelist",
+    entries:[]
   },
 ];
